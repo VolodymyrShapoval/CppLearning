@@ -95,15 +95,25 @@ void popFront(int*& arr, int& size)
 	arr = new_arr;
 }
 
-//void erase(int*& arr, int& position, int& size)
-//{
-//	if (position < 0 || position > size)
-//		throw invalid_argument("Position cannot be less than 0 or greater than size of array!");
-//
-//	--size;
-//	int* new_arr = new int[size];
-//	while(i < )
-//}
+void erase(int*& arr, int& size, const int& position)
+{
+	if (position < 0 || position > size)
+		throw invalid_argument("Position cannot be less than 0 or greater than size of array!");
+
+	--size;
+	int* new_arr = new int[size];
+
+	for (int i = 0, j = 0; i < size && j < size+1; ++j)
+	{
+		if (j == position) continue;
+		new_arr[i] = arr[j];
+		++i;
+	}
+
+	delete[] arr;
+
+	arr = new_arr;
+}
 
 void popBack(int*& arr, int& size)
 {
@@ -204,9 +214,9 @@ void main()
 		printArray(new_arr, size);
 
 		// Видалити елемент по індексу
-		/*cout << "Pop front: " << endl;
-		popFront(new_arr, size);
-		printArray(new_arr, size);*/
+		cout << "Erase: " << endl;
+		erase(new_arr, size, 2);
+		printArray(new_arr, size);
 
 		// Вставити елемент в кінець
 		cout << "Push back: " << endl;
