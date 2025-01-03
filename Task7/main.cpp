@@ -48,7 +48,7 @@ void emplaceAt(int*& arr, int& size, const int& position, const int& value)
 	++size;
 	int* new_arr = new int[size];
 	
-	for (int i = 0, j = 0; i < size && j < size - 1; ++i)
+	for (int i = 0, j = 0; i < size; ++i)
 	{
 		if (i == position)
 		{
@@ -155,8 +155,28 @@ void generateMatrix(int** const mat, const int& rows, const int& cols)
 	{
 		for (int j = 0; j < cols; ++j)
 		{
-			mat[i][j] = rand() % 20 + 1;
+			mat[i][j] = rand() % 20 + 10;
 		}
+	}
+}
+
+void emplaceAt(int**& mat, int& rows, int& cols, const int& positionI, const int& positionJ, const int& value)
+{
+	if (positionI < 0 || positionI >= rows)
+		throw invalid_argument("Position cannot be less than 0 or greater than number of rows!");
+	if (positionJ < 0 || positionJ > cols)
+		throw invalid_argument("Position cannot be less than 0 or greater than number of cols!");
+	
+	int colsNum = cols;
+	for (int i = 0; i < rows; i++)
+	{
+		if (i == positionI)
+		{
+			emplaceAt(mat[positionI], cols, positionJ, value);
+			continue;
+		}
+		emplaceAt(mat[i], cols, colsNum, 0);
+		--cols;
 	}
 }
 
@@ -166,6 +186,7 @@ void printMatrix(const int* const* mat, const int& rows, const int& cols)
 	{
 		for (int j = 0; j < cols; ++j)
 		{
+			if (mat[i][j] == 0) continue;
 			cout << mat[i][j] << "\t";
 		}
 		cout << endl;
@@ -210,12 +231,12 @@ void main()
 
 		// Вставити елемент по іденксу
 		cout << "Emplace at: " << endl;
-		emplaceAt(new_arr, size, 2, 100);
+		emplaceAt(new_arr, size, 10, 100);
 		printArray(new_arr, size);
 
 		// Видалити елемент по індексу
 		cout << "Erase: " << endl;
-		erase(new_arr, size, 2);
+		erase(new_arr, size, 10);
 		printArray(new_arr, size);
 
 		// Вставити елемент в кінець
@@ -241,7 +262,23 @@ void main()
 
 		createMatrix(mat, rows, cols);
 		generateMatrix(mat, rows, cols);
+
+		cout << "Jagged array: " << endl;
+		emplaceAt(mat, rows, cols, 0, 1, 100);
+
+		emplaceAt(mat, rows, cols, 1, 1, 100);
+		emplaceAt(mat, rows, cols, 1, 2, 100);
+
+		emplaceAt(mat, rows, cols, 2, 1, 100);
+		emplaceAt(mat, rows, cols, 2, 2, 100);
+		emplaceAt(mat, rows, cols, 2, 3, 100);
+
+		emplaceAt(mat, rows, cols, 3, 1, 100);
+		emplaceAt(mat, rows, cols, 3, 2, 100);
+
+		emplaceAt(mat, rows, cols, 4, 1, 100);
 		printMatrix(mat, rows, cols);
+
 		deleteMatrix(mat, rows);
 	}
 	catch (exception& ex)
