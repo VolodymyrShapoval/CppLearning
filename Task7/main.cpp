@@ -24,7 +24,47 @@ int* copyArray(const int* const arr, const int size)
 	return new_arr;
 }
 
-void pushBack(int*& arr, int& size, const int value)
+void pushFront(int*& arr, int& size, const int& value)
+{
+	int* new_arr = new int[size+1];
+	new_arr[0] = value;
+
+	for (int i = 0; i < size; ++i)
+	{
+		new_arr[i+1] = arr[i];
+	}
+	++size;
+
+	delete[] arr;
+
+	arr = new_arr;
+}
+
+void emplaceAt(int*& arr, int& size, const int& position, const int& value)
+{
+	if (position < 0 || position > size) 
+		throw invalid_argument("Position cannot be less than 0 or greater than size of array!");
+	
+	++size;
+	int* new_arr = new int[size];
+	
+	for (int i = 0, j = 0; i < size && j < size - 1; ++i)
+	{
+		if (i == position)
+		{
+			new_arr[i] = value;
+			continue;
+		}
+		new_arr[i] = arr[j];
+		++j;
+	}
+
+	delete[] arr;
+
+	arr = new_arr;
+}
+
+void pushBack(int*& arr, int& size, const int& value)
 {
 	int* new_arr = new int[size+1];
 	for (int i = 0; i < size; ++i)
@@ -40,6 +80,30 @@ void pushBack(int*& arr, int& size, const int value)
 	arr = new_arr;
 
 }
+
+void popFront(int*& arr, int& size)
+{
+	int* new_arr = new int[size-1];
+	for (int i = 1; i < size; i++)
+	{
+		new_arr[i-1] = arr[i];
+	}
+	--size;
+
+	delete[] arr;
+
+	arr = new_arr;
+}
+
+//void erase(int*& arr, int& position, int& size)
+//{
+//	if (position < 0 || position > size)
+//		throw invalid_argument("Position cannot be less than 0 or greater than size of array!");
+//
+//	--size;
+//	int* new_arr = new int[size];
+//	while(i < )
+//}
 
 void popBack(int*& arr, int& size)
 {
@@ -120,26 +184,37 @@ void main()
 		generateArray(arr, size);
 		printArray(arr, size);
 
-		/*delete[] arr;
-		arr = nullptr;*/
-
-		// Виконання двовимірного динамічного масиву
-		int rows = 5;
-		int cols = 3;
-		int** mat = new int* [rows];
-
-		createMatrix(mat, rows, cols);
-		generateMatrix(mat, rows, cols);
-		printMatrix(mat, rows, cols);
-		deleteMatrix(mat, rows);
-
 		// Копіювання динамічного масиву
 		int* new_arr = copyArray(arr, size);
 		printArray(new_arr, size);
 
+		// Вставити елемент на початок
+		cout << "Push front: " << endl;
+		pushFront(new_arr, size, 100);
+		printArray(new_arr, size);
+
+		// Видалити елемент з початку
+		cout << "Pop front: " << endl;
+		popFront(new_arr, size);
+		printArray(new_arr, size);
+
+		// Вставити елемент по іденксу
+		cout << "Emplace at: " << endl;
+		emplaceAt(new_arr, size, 2, 100);
+		printArray(new_arr, size);
+
+		// Видалити елемент по індексу
+		/*cout << "Pop front: " << endl;
+		popFront(new_arr, size);
+		printArray(new_arr, size);*/
+
+		// Вставити елемент в кінець
+		cout << "Push back: " << endl;
 		pushBack(new_arr, size, 100);
 		printArray(new_arr, size);
 
+		// Видалити елемент з кінця
+		cout << "Pop back: " << endl;
 		popBack(new_arr, size);
 		printArray(new_arr, size);
 
@@ -148,6 +223,16 @@ void main()
 
 		new_arr = nullptr;
 		arr = nullptr;
+
+		// ------ Виконання двовимірного динамічного масиву -------
+		int rows = 5;
+		int cols = 3;
+		int** mat = new int* [rows];
+
+		createMatrix(mat, rows, cols);
+		generateMatrix(mat, rows, cols);
+		printMatrix(mat, rows, cols);
+		deleteMatrix(mat, rows);
 	}
 	catch (exception& ex)
 	{
