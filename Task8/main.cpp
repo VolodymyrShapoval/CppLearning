@@ -32,11 +32,21 @@ void showInfo(string (*foo)())
 void main()
 {
 	try
-	{
+	{ 
 		const char* str = "Hello!";
 		cout << str << " = " << mystrlen(str) << endl;
+		string (*SHOW_INFO_FOO)(string(*foo)()) = [](string(*foo)()) -> string
+		{
+			cout << foo() << endl;
+			return "WTF?";
+		};
+		auto s = SHOW_INFO_FOO(getDataFromDB);
+		auto f = []()
+		{
+			return 1;
+		};
 
-		showInfo(getDataFromDB);
+		cout << f() << endl;
 	}
 	catch (exception& ex)
 	{
