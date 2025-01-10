@@ -10,12 +10,13 @@ public:
 	T value;
 	Node<T>* next;
 
+	Node() = default;
 	Node(T value)
 	{
 		this->value = value;
 		this->next = nullptr;
 	}
-	Node(const Node& node)
+	Node(const Node<T>& node)
 	{
 		this->value = node.value;
 		this->next = node.next;
@@ -61,6 +62,27 @@ public:
 			return;
 
 		clear();
+	}
+	bool operator == (const LinkedList<T>& other)
+	{
+		if (this->size != other.size)
+			return false;
+		
+		Node<T>* currentNode = head;
+		Node<T>* otherNode = other.head;
+		for (size_t i = 0; i < size; ++i)
+		{
+			if (currentNode->value != otherNode->value)
+				return false;
+			currentNode = currentNode->next;
+			otherNode = otherNode->next;
+		}
+		return true;
+	}
+
+	bool operator != (const LinkedList<T>& other)
+	{
+		return !(*this == other);
 	}
 	void pushFront(T value)
 	{
@@ -151,6 +173,26 @@ public:
 		current->next = new Node<T>(value);
 		++size;
 	}
+	void generateList(int size, int start, int end)
+	{
+		if (size < 0)
+		{
+			throw exception("Size of linked list cannot be less than 0");
+		}
+		else if (size == 0)
+		{
+			return;
+		}
+		if (this->head != nullptr)
+		{
+			clear();
+		}
+
+		for (size_t i = 0; i < size; ++i)
+		{
+			pushFront(rand() % (end-start+1) + start);
+		}
+	}
 	void print()
 	{
 		if (head == nullptr)
@@ -182,19 +224,10 @@ int main()
 	try
 	{
 		LinkedList<char> myList;
-		
-		for (size_t i = 0; i < 10; ++i)
-		{
-			myList.pushBack(rand() % 26 + 97);
-		}
+		LinkedList<char> newList;
 
+		myList.generateList(10, 97, 122);
 		myList.print();
-
-		for (size_t i = 0; i < 10; ++i)
-		{
-			myList.removeAt(i);
-			myList.print();
-		}
 	}
 	catch (exception& ex)
 	{
