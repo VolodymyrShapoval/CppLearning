@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 using namespace std;
 
@@ -61,6 +61,19 @@ public:
 		this->age = age;
 	}
 
+	bool areListsEqual(const Human& other)
+	{
+		if (this->size != other.size)
+			return false;
+
+		for (size_t i = 0; i < size; i++)
+		{
+			if (this->countOfCrypto[i] != other.countOfCrypto[i])
+				return false;
+		}
+		return true;
+	}
+
 	void Print()
 	{
 		cout << "Name: " << name
@@ -73,42 +86,57 @@ public:
 		cout << endl;
 	}
 
-protected:
+	Human& operator = (const Human& other)
+	{
+		this->name = other.name;
+		this->age = other.age;
+		this->size = other.size;
 
+		if (this->countOfCrypto != nullptr)
+		{
+			delete[] countOfCrypto;
+		}
+
+		this->countOfCrypto = new int[other.size];
+		for (size_t i = 0; i < size; ++i)
+		{
+			this->countOfCrypto[i] = other.countOfCrypto[i];
+		}
+		return *this;
+	}
+
+	bool operator == (const Human& other)
+	{
+		return (this->name == other.name
+			&& this->age == other.age
+			&& this->areListsEqual(other));
+	}
+
+	bool operator != (const Human& other)
+	{
+		return !(this->name == other.name
+			&& this->age == other.age
+			&& this->areListsEqual(other));
+	}
 };
 
 int main()
 {
-	srand(time(NULL));
 	try
 	{
+		Human Volodia("Volodia", 19, 5);
+		Human Viktor;
+		Viktor = Volodia;
 
-		string names[] = { "Volodia" "Viktor", "Vitaliy" };
-		Human firstHuman("Volodia", 19, 5);
-		firstHuman.setName("Volodymyr");
-		firstHuman.setAge(19);
-
-		Human secondHuman("Vitya", 20, 7);
-		secondHuman.setName("Viktor");
-		secondHuman.setAge(20);
-
-		Human thirdHuman;
-
-		firstHuman.Print();
-
-		cout << endl;
-
-		secondHuman.Print();
-
-		cout << endl;
-
-		thirdHuman.Print();
-
-		return 0;
+		Volodia.Print();
+		Viktor.Print();
+		bool res = Volodia == Viktor;
+		cout << res << endl;
 	}
-	catch (exception& ex)
+	catch(exception& ex)
 	{
 		cout << "Exception: " << ex.what() << endl;
-		return 1;
 	}
+
+	return 0;
 }
