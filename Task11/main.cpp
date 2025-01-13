@@ -118,6 +118,55 @@ public:
 			&& this->age == other.age
 			&& this->areListsEqual(other));
 	}
+
+	// Postfix increment
+	Human& operator ++()
+	{
+		++this->age;
+
+		return *this;
+	}
+
+	// Prefix increment
+	Human& operator ++(int value)
+	{
+		Human temp(*this);
+
+		this->age++; 
+
+		return temp;
+	}
+
+	// Postfix decrement
+	Human& operator --()
+	{
+		--this->age;
+
+		return *this;
+	}
+
+	// Prefix decrement
+	Human& operator --(int value)
+	{
+		Human temp(*this);
+
+		this->age--;
+
+		return temp;
+	}
+
+};
+
+class Wallet
+{
+public:
+	int& operator [](int index)
+	{
+		return arr[index];
+	}
+
+private:
+	int arr[5] { 53, 555, 123, 952, 71 };
 };
 
 int main()
@@ -126,12 +175,18 @@ int main()
 	{
 		Human Volodia("Volodia", 19, 5);
 		Human Viktor;
+
 		Viktor = Volodia;
 
 		Volodia.Print();
 		Viktor.Print();
 		bool res = Volodia == Viktor;
 		cout << res << endl;
+
+		cout << endl;
+
+		Wallet wallet;
+		cout << wallet[1] << endl;
 	}
 	catch(exception& ex)
 	{
