@@ -165,9 +165,28 @@ public:
 		return arr[index];
 	}
 
+	int getIdentifier()
+	{
+		return this->identifier;
+	}
+
+	void printInfo();
+
+	friend void changeIdentifier(Wallet& wallet, int value);
+
 private:
+	int identifier;
 	int arr[5] { 53, 555, 123, 952, 71 };
 };
+
+void Wallet::printInfo()
+{
+}
+
+void changeIdentifier(Wallet& wallet, int value)
+{
+	wallet.identifier = value;
+}
 
 int main()
 {
@@ -186,7 +205,8 @@ int main()
 		cout << endl;
 
 		Wallet wallet;
-		cout << wallet[1] << endl;
+		changeIdentifier(wallet, 1233542);
+		cout << "Wallet(" << wallet.getIdentifier() << "): " << wallet[1] << endl;
 	}
 	catch(exception& ex)
 	{
@@ -195,3 +215,4 @@ int main()
 
 	return 0;
 }
+
