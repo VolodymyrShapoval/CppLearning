@@ -4,35 +4,36 @@
 class MyString
 {
 public:
-	MyString() : str(nullptr) {}
+	MyString() : str(nullptr), length(0) {}
 	MyString(const char* const str)
 	{
-		int length = strlen(str);
-		this->str = new char[length + 1];
+		this->length = strlen(str);
+		this->str = new char[this->length + 1];
 
-		for (size_t i = 0; i < length; ++i)
+		for (size_t i = 0; i < this->length; ++i)
 		{
 			this->str[i] = str[i];
 		}
 
-		this->str[length] = '\0';
+		this->str[this->length] = '\0';
 	}
 	MyString(const MyString& other)
 	{
-		int length = strlen(other.str);
+		this->length = strlen(other.str);
 
-		this->str = new char[length + 1];
+		this->str = new char[this->length + 1];
 
-		for (size_t i = 0; i < length; ++i)
+		for (size_t i = 0; i < this->length; ++i)
 		{
 			this->str[i] = other.str[i];
 		}
 
-		this->str[length] = '\0';
+		this->str[this->length] = '\0';
 	}
 	~MyString()
 	{
 		delete[] this->str;
+		this->length = 0;
 	}
 
 	MyString& operator = (const MyString& other)
@@ -42,21 +43,19 @@ public:
 			delete[] this->str;
 		}
 
-		int length = strlen(other.str);
+		this->length = strlen(other.str);
 
-		this->str = new char[length + 1];
+		this->str = new char[this->length + 1];
 
-		for (size_t i = 0; i < length; ++i)
+		for (size_t i = 0; i < this->length; ++i)
 		{
 			this->str[i] = other.str[i];
 		}
 
-		this->str[length] = '\0';
+		this->str[this->length] = '\0';
 
 		return *this;
 	}
-
-
 
 	MyString operator + (const MyString& other)
 	{
@@ -66,6 +65,7 @@ public:
 
 		MyString new_str;
 		new_str.str = new char[length + 1];
+		new_str.length = length;
 
 		for (size_t i = 0; i < myStrLength; ++i)
 		{
@@ -83,13 +83,37 @@ public:
 		return new_str;
 	}
 
+	bool operator ==(const MyString& other)
+	{
+		if (this->length != other.length)
+		{
+			return false;
+		}
+
+		for (size_t i = 0; i < this->length; ++i)
+		{
+			if (this->str[i] != other.str[i])
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	void print()
 	{
-		std::cout << str << std::endl;
+		std::cout << this->str << std::endl;
+	}
+
+	int getLength()
+	{
+		return this->length;
 	}
 
 private:
 	char* str;
+	int length;
 
 };
 
@@ -100,9 +124,13 @@ int main()
 		MyString str1 = "Hello";
 		MyString str2 = "World";
 
+		std::cout << "str1: " << str1.getLength() << std::endl;
+		std::cout << "str2: " << str2.getLength() << std::endl;
 		MyString str = str1 + str2;
-
+		std::cout << "str: " << str.getLength() << std::endl;
+		std::cout << "str1 == str2 -> " << std::boolalpha << (str1 == str2) << std::endl;
 		str.print();
+
 	}
 	catch (std::exception& ex)
 	{
