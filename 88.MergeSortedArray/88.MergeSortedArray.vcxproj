@@ -24,6 +24,7 @@
     <ProjectGuid>{22acc3b9-ed7f-4f93-8358-f4b3b99bac8f}</ProjectGuid>
     <RootNamespace>My88MergeSortedArray</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>88.MergeSortedArray(Solution#1)</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
