@@ -20,7 +20,6 @@ public:
 	MyString(const MyString& other)
 	{
 		this->length = strlen(other.str);
-
 		this->str = new char[this->length + 1];
 
 		for (size_t i = 0; i < this->length; ++i)
@@ -29,6 +28,12 @@ public:
 		}
 
 		this->str[this->length] = '\0';
+	}
+	MyString(MyString&& other)
+	{
+		this->length = other.length;
+		this->str = other.str;
+		other.str = nullptr;
 	}
 	~MyString()
 	{
