@@ -101,6 +101,20 @@ public:
 		return true;
 	}
 
+	bool operator !=(const MyString& other)
+	{
+		return !(this->str == other.str);
+	}
+
+	char& operator [](size_t index)
+	{
+		if (this->length == 0 || index > this->length)
+		{
+			throw std::out_of_range("Index out of range!");
+		}
+		return this->str[index];
+	}
+
 	void print()
 	{
 		std::cout << this->str << std::endl;
@@ -123,13 +137,22 @@ int main()
 	{
 		MyString str1 = "Hello";
 		MyString str2 = "World";
+		MyString str3;
 
 		std::cout << "str1: " << str1.getLength() << std::endl;
 		std::cout << "str2: " << str2.getLength() << std::endl;
 		MyString str = str1 + str2;
 		std::cout << "str: " << str.getLength() << std::endl;
-		std::cout << "str1 == str2 -> " << std::boolalpha << (str1 == str2) << std::endl;
 		str.print();
+		std::cout << "str1 == str2 -> " << std::boolalpha << (str1 == str2) << std::endl;
+		std::cout << "str1 != str2 -> " << std::boolalpha << (str1 != str2) << std::endl;
+		std::cout << "str(before replacement) -> ";
+		str.print();
+		str[0] = 'h';
+		str[4] = '0';
+		std::cout << "str(after replacement) -> ";
+		str.print();
+		std::cout << "str3 -> " << str3[10] << std::endl;
 
 	}
 	catch (std::exception& ex)
