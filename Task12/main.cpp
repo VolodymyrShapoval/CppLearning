@@ -30,12 +30,13 @@ private:
 
 class Coin
 {
+	friend User;
 public:
 	Coin() : numberOfCoins(1) {};
 	Coin(size_t value) : numberOfCoins(value) {};
 
-	friend void User::giveCoin(const Coin& coin);
-	friend void User::takeCoin(const Coin& coin);
+	void giveCoin(const Coin& coin);
+	void takeCoin(const Coin& coin);
 
 private:
 	int numberOfCoins;
