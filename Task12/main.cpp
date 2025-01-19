@@ -7,10 +7,13 @@ class Coin;
 class User
 {
 public:
+	static int count;
+
 	User(std::string name)
 	{
 		this->name = name;
 		this->coins = 0;
+		this->count += 1;
 	}
 
 	int getCoins()
@@ -26,6 +29,8 @@ private:
 	std::string name;
 	int coins;
 };
+
+int User::count = 0;
 
 
 class Coin
@@ -57,6 +62,10 @@ int main()
 	std::cout << user1.getCoins() << std::endl;
 	user1.takeCoin(EFR);
 	std::cout << user1.getCoins() << std::endl;
+
+	std::cout << "Users count: " << User::count << std::endl;
+	User user2("Viktor"), user3("Vitaliy");
+	std::cout << "Users count: " << User::count << std::endl;
 
 	return 0;
 }
