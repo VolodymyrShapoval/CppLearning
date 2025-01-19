@@ -11,9 +11,10 @@ public:
 
 	User(std::string name)
 	{
+		++count;
+		this->id = count;
 		this->name = name;
 		this->coins = 0;
-		this->count += 1;
 	}
 
 	int getCoins()
@@ -21,11 +22,17 @@ public:
 		return this->coins;
 	}
 
+	int getId()
+	{
+		return this->id;
+	}
+
 	void giveCoin(const Coin& coin);
 
 	void takeCoin(const Coin& coin);
 
 private:
+	int id;
 	std::string name;
 	int coins;
 };
@@ -67,6 +74,10 @@ int main()
 	User user2("Viktor"), user3("Vitaliy");
 	std::cout << "Users count: " << User::count << std::endl;
 
+	std::cout << "Users id: " << std::endl;
+	std::cout << "User1: " << user1.getId() << std::endl;
+	std::cout << "User2: " << user2.getId() << std::endl;
+	std::cout << "User3: " << user3.getId() << std::endl;
 	return 0;
 }
 
