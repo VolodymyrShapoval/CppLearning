@@ -22,6 +22,11 @@ public:
 		return this->coins;
 	}
 
+	static int getCount()
+	{
+		return count;
+	}
+
 	int getId()
 	{
 		return this->id;
@@ -78,6 +83,8 @@ int main()
 	std::cout << "User1: " << user1.getId() << std::endl;
 	std::cout << "User2: " << user2.getId() << std::endl;
 	std::cout << "User3: " << user3.getId() << std::endl;
+
+	std::cout << "Number of users: " << User::getCount() << std::endl;
 	return 0;
 }
 
