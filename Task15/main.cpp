@@ -5,6 +5,14 @@
 class Weapon
 {
 public:
+	Weapon()
+	{
+		std::cout << "Loading weapon..." << std::endl;
+	}
+	virtual ~Weapon()
+	{
+		std::cout << "Shooting was stopped!" << std::endl;
+	}
 	virtual void Shoot() = 0;
 	void Restart()
 	{
@@ -15,6 +23,10 @@ public:
 class Gun : public Weapon
 {
 public:
+	~Gun() override
+	{
+		std::cout << "Out of ammunition!" << std::endl;
+	}
 	void Shoot() override
 	{
 		std::cout << "Type: Gun" << std::endl;
@@ -24,6 +36,10 @@ public:
 class SubmachineGun : public Weapon
 {
 public:
+	~SubmachineGun() override
+	{
+		std::cout << "Overheating" << std::endl;
+	}
 	void Shoot() override
 	{
 		std::cout << "Type: Submachine Gun" << std::endl;
@@ -76,22 +92,24 @@ int main()
 {
 	try
 	{
-		Fort17 gun1;
-		Kolt1911 gun2;
-		M1928 submachineGun1;
-
 		Player player1;
 
-		player1.Shoot(&gun1);
-		gun1.Restart();
+		Weapon* gun1 = new Fort17;
+		player1.Shoot(gun1);
+		gun1->Restart();
+		delete gun1;
 		std::cout << std::endl;
 
-		player1.Shoot(&gun2);
-		gun2.Restart();
+		Kolt1911* gun2 = new Kolt1911;
+		player1.Shoot(gun2);
+		gun2->Restart();
+		delete gun2;
 		std::cout << std::endl;
 
-		player1.Shoot(&submachineGun1);
-		submachineGun1.Restart();
+		M1928* submachineGun1 = new M1928;
+		player1.Shoot(submachineGun1);
+		submachineGun1->Restart();
+		delete submachineGun1;
 		std::cout << std::endl;
 	}
 	catch (std::exception& ex)
