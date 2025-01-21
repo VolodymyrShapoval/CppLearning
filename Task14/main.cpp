@@ -45,7 +45,7 @@ protected:
 class KNU
 {
 public:
-	void displayInfo(Human& human)
+	void displayLecturerInfo(Human& human)
 	{
 		human.displayInfo();
 	}
@@ -59,9 +59,9 @@ int main()
 		Student student1("John", "SE-37");
 
 		KNU knu;
-		knu.displayInfo(human1);
+		knu.displayLecturerInfo(human1);
 		std::cout << std::endl;
-		knu.displayInfo(student1);
+		knu.displayLecturerInfo(student1);
 	}
 	catch (std::exception& ex)
 	{
