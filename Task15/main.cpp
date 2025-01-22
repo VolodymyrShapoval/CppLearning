@@ -111,26 +111,46 @@ private:
 };
 
 // Multiple inheritance
+// Interfaces
 
-class Car
+class ICar
+{
+public:
+	virtual void Drive() = 0;
+	virtual void SpeedUp() = 0;
+};
+
+class Car : ICar
 {
 public:
 	Car()
 	{
 		std::cout << "Checking wheels, transmission..." << std::endl;
 	}
+	Car(const std::size_t startSpeed) : Car()
+	{
+		this->speed = startSpeed;
+	}
 	virtual ~Car()
 	{
 		std::cout << "Disconnecting the wheels..." << std::endl;
 	}
-	void Drive()
+	void Drive() override
 	{
-		std::cout << "Driving..." << std::endl;
+		std::cout << "Driving at a speed of " << this->speed << " km/h" << std::endl;
+	}
+	void SpeedUp() override
+	{
+		this->speed += 10;
+		std::cout << "Speed up to " << this->speed << " km/h" << std::endl;
 	}
 	void DisplayInfo()
 	{
 		std::cout << "Speed: 220 km/h, FuelCapacity: 60 L, MaxRange: 800 km, HorsePower: 300 HP" << std::endl;
 	}
+
+private:
+	std::size_t speed;
 };
 
 class Airplan
@@ -157,7 +177,7 @@ public:
 class Drone : public Car, public Airplan
 {
 public:
-	Drone()
+	Drone(const std::size_t startSpeed) : Car(startSpeed)
 	{
 		std::cout << "Launching..." << std::endl;
 	}
@@ -191,12 +211,22 @@ int main()
 		delete submachineGun1;
 		std::cout << std::endl;
 
-		Drone drone1;
-		drone1.Drive();
+		Drone* drone1 = new Drone(5);
+		drone1->Drive();
+		drone1->SpeedUp();
 		std::cout << "->Information about the flying device: ";
-		((Airplan)drone1).DisplayInfo();
+		Airplan* flyingDevice = drone1;
+		flyingDevice->DisplayInfo();
 		std::cout << "->Information about the driving device: ";
-		((Car)drone1).DisplayInfo();
+		Car* drivingDevice = drone1;
+		drivingDevice->DisplayInfo();
+		drivingDevice->Drive();
+		drivingDevice->SpeedUp();
+		drivingDevice->SpeedUp();
+		drivingDevice->Drive();
+		std::cout << std::endl;
+
+		delete drone1;
 	}
 	catch (std::exception& ex)
 	{
