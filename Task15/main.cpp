@@ -113,29 +113,36 @@ private:
 // Multiple inheritance
 // Interfaces
 
-class ICar
+class IMoveable
 {
 public:
-	virtual void Drive() = 0;
+	virtual void Move() = 0;
 	virtual void SpeedUp() = 0;
+	virtual ~IMoveable() = default;
 };
 
-class Car : ICar
+class Vehicle : public virtual IMoveable
 {
 public:
-	Car()
+	Vehicle(const std::size_t startSpeed) : speed(startSpeed) {}
+	virtual void DisplayInfo() = 0;
+
+protected:
+	std::size_t speed;
+};
+
+class Car : public virtual Vehicle
+{
+public:
+	Car(const std::size_t startSpeed) : Vehicle(startSpeed)
 	{
-		std::cout << "Checking wheels, transmission..." << std::endl;
-	}
-	Car(const std::size_t startSpeed) : Car()
-	{
-		this->speed = startSpeed;
+		std::cout << "Launching car system..." << std::endl;
 	}
 	virtual ~Car()
 	{
-		std::cout << "Disconnecting the wheels..." << std::endl;
+		std::cout << "Shutting down car system..." << std::endl;
 	}
-	void Drive() override
+	void Move() override
 	{
 		std::cout << "Driving at a speed of " << this->speed << " km/h" << std::endl;
 	}
@@ -144,46 +151,59 @@ public:
 		this->speed += 10;
 		std::cout << "Speed up to " << this->speed << " km/h" << std::endl;
 	}
-	void DisplayInfo()
+	void DisplayInfo() override
 	{
-		std::cout << "Speed: 220 km/h, FuelCapacity: 60 L, MaxRange: 800 km, HorsePower: 300 HP" << std::endl;
+		std::cout << "Speed: " << this->speed << " km/h, FuelCapacity: 60 L, MaxRange : 800 km, HorsePower : 300 HP" << std::endl;
 	}
-
-private:
-	std::size_t speed;
 };
 
-class Airplan
+class Airplan : public virtual Vehicle
 {
 public:
-	Airplan()
+	Airplan(const std::size_t startSpeed) : Vehicle(startSpeed)
 	{
-		std::cout << "Checking flaps and navigation instruments..." << std::endl;
+		std::cout << "Launching flight system..." << std::endl;
 	}
 	virtual ~Airplan()
 	{
-		std::cout << "Disconnecting navigation instruments..." << std::endl;
+		std::cout << "Shutting down flight system..." << std::endl;
 	}
-	void Fly()
+	void Move() override
 	{
-		std::cout << "Flying..." << std::endl;
+		std::cout << "Flying at a speed of " << this->speed << " km/h" << std::endl;
 	}
-	void DisplayInfo()
+	void SpeedUp() override
 	{
-		std::cout << "Speed: 900 km/h, MaxAltitude: 12,000 m, MaxDistance: 15,000 km, FuelCapacity: 183,380 L" << std::endl;
+		this->speed += 25;
+		std::cout << "Speed up to " << this->speed << " km/h" << std::endl;
+	}
+	void DisplayInfo() override
+	{
+		std::cout << "Speed: " << this->speed << " km/h, MaxAltitude: 12, 000 m, MaxDistance : 15, 000 km, FuelCapacity : 183, 380 L" << std::endl;
 	}
 };
 
 class Drone : public Car, public Airplan
 {
 public:
-	Drone(const std::size_t startSpeed) : Car(startSpeed)
+	Drone(const std::size_t startSpeed) : Vehicle(startSpeed), Car(startSpeed), Airplan(startSpeed)
 	{
-		std::cout << "Launching..." << std::endl;
+		std::cout << "Preparing..." << std::endl;
 	}
 	~Drone() override
 	{
 		std::cout << "Mission complete..." << std::endl;
+	}
+	void Move() override {
+		::Airplan::Move();
+	}
+	void SpeedUp() override {
+		this->speed += 15;
+		std::cout << "Speed up to " << this->speed << " km/h" << std::endl;
+	}
+	void DisplayInfo() override
+	{
+		std::cout << "Speed: " << this->speed << " km/h" << std::endl;
 	}
 };
 
@@ -212,18 +232,21 @@ int main()
 		std::cout << std::endl;
 
 		Drone* drone1 = new Drone(5);
-		drone1->Drive();
+		drone1->Move();
 		drone1->SpeedUp();
-		std::cout << "->Information about the flying device: ";
+		drone1->Car::DisplayInfo();
+		drone1->Airplan::DisplayInfo();
+		drone1->DisplayInfo();
+		/*std::cout << "->Information about the flying device: ";
 		Airplan* flyingDevice = drone1;
 		flyingDevice->DisplayInfo();
 		std::cout << "->Information about the driving device: ";
 		Car* drivingDevice = drone1;
 		drivingDevice->DisplayInfo();
-		drivingDevice->Drive();
+		drivingDevice->Move();
 		drivingDevice->SpeedUp();
 		drivingDevice->SpeedUp();
-		drivingDevice->Drive();
+		drivingDevice->Move();*/
 		std::cout << std::endl;
 
 		delete drone1;
