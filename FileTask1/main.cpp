@@ -27,6 +27,31 @@ void write_to_file(const std::string& PATH)
 	fout.close();
 }
 
+void read_from_file(const std::string& PATH)
+{
+	if (PATH.empty())
+	{
+		throw std::invalid_argument("The file path is empty!");
+	}
+
+	std::ifstream fin;
+	fin.open(PATH);
+
+	if (!fin.is_open())
+	{
+		throw std::ios_base::failure("Failed to open file at path " + PATH);
+	}
+
+	std::string str;
+	while (!fin.eof())
+	{
+		std::getline(fin, str);
+		std::cout << str << std::endl;
+	}
+
+	fin.close();
+}
+
 int main()
 {
 	try
@@ -43,6 +68,9 @@ int main()
 		{
 		case 1:
 			write_to_file(PATH);
+			break;
+		case 2:
+			read_from_file(PATH);
 			break;
 		case 0:
 			std::cout << "Goodbye!" << std::endl;
