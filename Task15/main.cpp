@@ -2,6 +2,12 @@
 #include <string>
 #include <stdexcept>
 
+// Abstract class, 
+// Inheritance, 
+// Virtual methods,
+// Virtual constructors, 
+// Call virtual method from base class
+
 class Weapon
 {
 public:
@@ -104,6 +110,31 @@ private:
 	std::size_t	m_experiencePoints = 0;
 };
 
+// Multiple inheritance
+
+class Car
+{
+public:
+	void Drive()
+	{
+		std::cout << "Driving..." << std::endl;
+	}
+};
+
+class Airplan
+{
+public:
+	void Fly()
+	{
+		std::cout << "Flying..." << std::endl;
+	}
+};
+
+class Drone : public Car, public Airplan
+{
+	
+};
+
 int main()
 {
 	try
@@ -127,6 +158,12 @@ int main()
 		submachineGun1->Restart();
 		delete submachineGun1;
 		std::cout << std::endl;
+
+		Drone* drone1 = new Drone;
+		drone1->Drive();
+		drone1->Fly();
+		delete drone1;
+
 	}
 	catch (std::exception& ex)
 	{
