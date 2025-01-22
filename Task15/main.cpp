@@ -121,7 +121,7 @@ public:
 	virtual ~IMoveable() = default;
 };
 
-class Vehicle : public virtual IMoveable
+class Vehicle : public IMoveable
 {
 public:
 	Vehicle(const std::size_t startSpeed) : speed(startSpeed) {}
@@ -231,22 +231,13 @@ int main()
 		delete submachineGun1;
 		std::cout << std::endl;
 
+
 		Drone* drone1 = new Drone(5);
 		drone1->Move();
 		drone1->SpeedUp();
 		drone1->Car::DisplayInfo();
 		drone1->Airplan::DisplayInfo();
 		drone1->DisplayInfo();
-		/*std::cout << "->Information about the flying device: ";
-		Airplan* flyingDevice = drone1;
-		flyingDevice->DisplayInfo();
-		std::cout << "->Information about the driving device: ";
-		Car* drivingDevice = drone1;
-		drivingDevice->DisplayInfo();
-		drivingDevice->Move();
-		drivingDevice->SpeedUp();
-		drivingDevice->SpeedUp();
-		drivingDevice->Move();*/
 		std::cout << std::endl;
 
 		delete drone1;
