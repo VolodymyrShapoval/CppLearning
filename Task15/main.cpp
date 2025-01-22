@@ -115,6 +115,14 @@ private:
 class Car
 {
 public:
+	Car()
+	{
+		std::cout << "Checking wheels, transmission..." << std::endl;
+	}
+	virtual ~Car()
+	{
+		std::cout << "Disconnecting the wheels..." << std::endl;
+	}
 	void Drive()
 	{
 		std::cout << "Driving..." << std::endl;
@@ -124,6 +132,14 @@ public:
 class Airplan
 {
 public:
+	Airplan()
+	{
+		std::cout << "Checking flaps and navigation instruments..." << std::endl;
+	}
+	virtual ~Airplan()
+	{
+		std::cout << "Disconnecting navigation instruments..." << std::endl;
+	}
 	void Fly()
 	{
 		std::cout << "Flying..." << std::endl;
@@ -132,7 +148,15 @@ public:
 
 class Drone : public Car, public Airplan
 {
-	
+public:
+	Drone()
+	{
+		std::cout << "Launching..." << std::endl;
+	}
+	~Drone() override
+	{
+		std::cout << "Mission complete..." << std::endl;
+	}
 };
 
 int main()
@@ -159,9 +183,8 @@ int main()
 		delete submachineGun1;
 		std::cout << std::endl;
 
-		Drone* drone1 = new Drone;
+		Car* drone1 = new Drone;
 		drone1->Drive();
-		drone1->Fly();
 		delete drone1;
 
 	}
