@@ -127,6 +127,10 @@ public:
 	{
 		std::cout << "Driving..." << std::endl;
 	}
+	void DisplayInfo()
+	{
+		std::cout << "Speed: 220 km/h, FuelCapacity: 60 L, MaxRange: 800 km, HorsePower: 300 HP" << std::endl;
+	}
 };
 
 class Airplan
@@ -143,6 +147,10 @@ public:
 	void Fly()
 	{
 		std::cout << "Flying..." << std::endl;
+	}
+	void DisplayInfo()
+	{
+		std::cout << "Speed: 900 km/h, MaxAltitude: 12,000 m, MaxDistance: 15,000 km, FuelCapacity: 183,380 L" << std::endl;
 	}
 };
 
@@ -183,10 +191,12 @@ int main()
 		delete submachineGun1;
 		std::cout << std::endl;
 
-		Car* drone1 = new Drone;
-		drone1->Drive();
-		delete drone1;
-
+		Drone drone1;
+		drone1.Drive();
+		std::cout << "->Information about the flying device: ";
+		((Airplan)drone1).DisplayInfo();
+		std::cout << "->Information about the driving device: ";
+		((Car)drone1).DisplayInfo();
 	}
 	catch (std::exception& ex)
 	{
