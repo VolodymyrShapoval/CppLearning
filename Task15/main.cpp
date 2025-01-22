@@ -82,17 +82,33 @@ public:
 class Player
 {
 public:
+	Player(std::string username) : m_username(username), m_age(0) {}
+	Player(std::string username, std::size_t age) : Player(username) 
+	{
+		this->m_age = age;
+	}
+	Player(std::string username, std::size_t age, std::size_t level) : Player(username, age)
+	{
+		this->m_level = level;
+	}
+
 	void Shoot(Weapon* weapon)
 	{
 		weapon->Shoot();
 	}
+
+private:
+	std::string m_username;
+	std::size_t m_age;
+	std::size_t	m_level = 1;
+	std::size_t	m_experiencePoints = 0;
 };
 
 int main()
 {
 	try
 	{
-		Player player1;
+		Player player1("FatCat1408");
 
 		Weapon* gun1 = new Fort17;
 		player1.Shoot(gun1);
