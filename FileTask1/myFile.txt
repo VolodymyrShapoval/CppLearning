@@ -1,4 +1,0 @@
-Working with "fstream" library.
-Continue learning C++...        
-Hello, dear friends. Today we gonna code in C++
-Hello world!
