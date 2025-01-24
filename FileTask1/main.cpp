@@ -2,6 +2,7 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
+#include "../LinkedList/LinkedList.h"
 
 class Human
 {
@@ -52,7 +53,7 @@ void write_to_file(const T& object, const std::string& PATH)
 	}
 
 	std::ofstream fout;
-	fout.open(PATH, std::ios::app);
+	fout.open(PATH, std::ios_base::in);
 
 	if (!fout.is_open())
 	{
@@ -90,7 +91,7 @@ void read_from_file(const std::string& PATH)
 }
 
 template<class T>
-void read_from_file(T& object, const std::string& PATH)
+void read_from_file(Human& object, const std::string& PATH)
 {
 	if (PATH.empty())
 	{
@@ -98,7 +99,7 @@ void read_from_file(T& object, const std::string& PATH)
 	}
 
 	std::ifstream fin;
-	fin.open(PATH);
+	fin.open(PATH, std::ios_base::out);
 
 	if (!fin.is_open())
 	{
@@ -107,67 +108,68 @@ void read_from_file(T& object, const std::string& PATH)
 
 	while (fin.read((char*)&object, sizeof(T)))
 	{
-		
 	}
 	fin.close();
 }
 
 int main()
 {
-	try
+	while (true)
 	{
-		const std::string textPATH = "txtFile.txt";
-		const std::string objectPATH = "objectFile.txt";
+		try
+		{
+			const std::string textPATH = "txtFile.txt";
+			const std::string objectPATH = "objectFile.txt";
 
-		std::cout << "1. Write string to file\n"
+			std::cout << "1. Write string to file\n"
 				<< "2. Write object to file\n"
 				<< "3. Read string from file\n"
 				<< "4. Read object from file\n"
 				<< "0. Exit\n"
 				<< "Choose operation: ";
-		int choice;
-		std::cin >> choice;
-		switch (choice)
-		{
-		case 1:
-		{
-			write_to_file(textPATH);
-			break;
-		}
-		case 2:
-		{
-			std::string name;
-			std::size_t age;
+			int choice;
+			std::cin >> choice;
+			switch (choice)
+			{
+			case 1:
+			{
+				write_to_file(textPATH);
+				break;
+			}
+			case 2:
+			{
+				std::string name;
+				std::size_t age;
 
-			std::cout << "Input name: ";
-			std::cin >> name;
-			std::cout << "Input age: ";
-			std::cin >> age;
+				std::cout << "Input name: ";
+				std::cin >> name;
+				std::cout << "Input age: ";
+				std::cin >> age;
 
-			Human human = Human(name, age);
-			write_to_file(human, objectPATH);	
-			break;
+				Human human = Human(name, age);
+				write_to_file(human, objectPATH);
+				break;
+			}
+			case 3:
+				read_from_file(textPATH);
+				break;
+			case 4:
+			{
+				Human* object = new Human();
+				read_from_file<Human>(*object, objectPATH);
+				object->display_info();
+				break;
+			}
+			case 0:
+				std::cout << "Goodbye!" << std::endl;
+				return 0;
+			}
 		}
-		case 3:
-			read_from_file(textPATH);
-			break;
-		case 4:
+		catch (std::exception& ex)
 		{
-			Human human;
-			read_from_file(human, objectPATH);
-			human.display_info();
-			break;
+			std::cout << "Exception: " << ex.what() << std::endl;
 		}
-		case 0:
-			std::cout << "Goodbye!" << std::endl;
-			break;
-		default:
-			break;
-		}
-	}
-	catch (std::exception& ex)
-	{
-		std::cout << "Exception: " << ex.what() << std::endl;
+		std::cout << std::string(25, '<') << std::endl;
 	}
 	return 0;
 }
