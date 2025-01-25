@@ -2,7 +2,6 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
-#include "../LinkedList/LinkedList.h"
 
 class Human
 {
@@ -27,10 +26,10 @@ void write_to_file(const std::string& PATH)
 		throw std::invalid_argument("The file path is empty!");
 	}
 
-	std::ofstream fout;
-	fout.open(PATH, std::ios::app);
+	std::fstream fs;
+	fs.open(PATH, std::ios_base::app);
 
-	if (!fout.is_open())
+	if (!fs.is_open())
 	{
 		throw std::ios_base::failure("Failed to open file at path " + PATH);
 	}
@@ -39,9 +38,9 @@ void write_to_file(const std::string& PATH)
 	std::string data;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::getline(std::cin, data);
-	fout << data << std::endl;
+	fs << data << std::endl;
 
-	fout.close();
+	fs.close();
 }
 
 template<class T>
