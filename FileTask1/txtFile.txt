@@ -1,4 +1,1 @@
-testing string functions
-Yeah homie yeah yeah...
-My name's Bond. James Bond!
-Using fstream library instead of ifstream
+Hello world!

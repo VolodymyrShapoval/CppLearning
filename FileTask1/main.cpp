@@ -27,7 +27,7 @@ void write_to_file(const std::string& PATH)
 	}
 
 	std::fstream fs;
-	fs.open(PATH, std::ios_base::app);
+	fs.open(PATH, std::ios_base::out | std::ios_base::app);
 
 	if (!fs.is_open())
 	{
@@ -71,22 +71,22 @@ void read_from_file(const std::string& PATH)
 		throw std::invalid_argument("The file path is empty!");
 	}
 
-	std::ifstream fin;
-	fin.open(PATH);
+	std::fstream fs;
+	fs.open(PATH, std::ios_base::in);
 
-	if (!fin.is_open())
+	if (!fs.is_open())
 	{
 		throw std::ios_base::failure("Failed to open file at path " + PATH);
 	}
 
 	std::string str;
-	while (!fin.eof())
+	while (!fs.eof())
 	{
-		std::getline(fin, str);
+		std::getline(fs, str);
 		std::cout << str << std::endl;
 	}
 
-	fin.close();
+	fs.close();
 }
 
 template<class T>
