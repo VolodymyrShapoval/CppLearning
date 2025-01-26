@@ -8,14 +8,9 @@ class Human
 public:
 	Human() : m_name("Noname"), m_age(0) {}
 	Human(const std::string& name, const std::size_t age) : m_name(name), m_age(age) {}
-	std::string getName() const
-	{
-		return this->m_name;
-	}
-	std::size_t getAge() const
-	{
-		return this->m_age;
-	}
+
+	friend std::ostream& operator <<(std::ostream& os, const Human& human);
+	friend std::istream& operator >>(std::istream& is, Human& human);
 
 private:
 	std::string m_name;
@@ -24,8 +19,13 @@ private:
 
 std::ostream& operator <<(std::ostream& os, const Human& human)
 {
-	os << human.getName() << " - " << human.getAge();
+	os << human.m_name << "\t" << human.m_age;
 	return os;
+}
+std::istream& operator >>(std::istream& is, Human& human)
+{
+	is >> human.m_name >> human.m_age;
+	return is;
 }
 
 void write_to_file(const std::string& PATH)
@@ -60,17 +60,17 @@ void write_to_file(const T& object, const std::string& PATH)
 		throw std::invalid_argument("The file path is empty!");
 	}
 
-	std::ofstream fout;
-	fout.open(PATH, std::ios_base::in);
+	std::fstream fs;
+	fs.open(PATH, std::ios_base::out);
 
-	if (!fout.is_open())
+	if (!fs.is_open())
 	{
 		throw std::ios_base::failure("Failed to open file at path " + PATH);
 	}
 
-	fout.write((char*)&object, sizeof(T));
+	fs << object << std::endl;
 
-	fout.close();
+	fs.close();
 }
 
 void read_from_file(const std::string& PATH)
@@ -106,18 +106,20 @@ void read_from_file(Human& object, const std::string& PATH)
 		throw std::invalid_argument("The file path is empty!");
 	}
 
-	std::ifstream fin;
-	fin.open(PATH, std::ios_base::out);
+	std::fstream fs;
+	fs.open(PATH, std::ios_base::in);
 
-	if (!fin.is_open())
+	if (!fs.is_open())
 	{
 		throw std::ios_base::failure("Failed to open file at path " + PATH);
 	}
 
-	while (fin.read((char*)&object, sizeof(T)))
+	while (!fs.eof())
 	{
+		fs >> object;
 	}
-	fin.close();
+
+	fs.close();
 }
 
 int main()
