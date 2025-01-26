@@ -36,6 +36,7 @@ void write_to_file(const std::string& PATH)
 	}
 
 	std::fstream fs;
+	fs.exceptions(std::ofstream::badbit | std::ofstream::failbit);
 	fs.open(PATH, std::ios_base::out | std::ios_base::app);
 
 	if (!fs.is_open())
@@ -47,7 +48,7 @@ void write_to_file(const std::string& PATH)
 	std::string data;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::getline(std::cin, data);
-	fs << data << std::endl;
+	fs << data;
 
 	fs.close();
 }
@@ -61,6 +62,7 @@ void write_to_file(const T& object, const std::string& PATH)
 	}
 
 	std::fstream fs;
+	fs.exceptions(std::ofstream::badbit | std::ofstream::failbit);
 	fs.open(PATH, std::ios_base::out);
 
 	if (!fs.is_open())
@@ -68,7 +70,7 @@ void write_to_file(const T& object, const std::string& PATH)
 		throw std::ios_base::failure("Failed to open file at path " + PATH);
 	}
 
-	fs << object << std::endl;
+	fs << object;
 
 	fs.close();
 }
@@ -81,6 +83,7 @@ void read_from_file(const std::string& PATH)
 	}
 
 	std::fstream fs;
+	fs.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 	fs.open(PATH, std::ios_base::in);
 
 	if (!fs.is_open())
@@ -91,6 +94,7 @@ void read_from_file(const std::string& PATH)
 	std::string str;
 	while (!fs.eof())
 	{
+		str = "";
 		std::getline(fs, str);
 		std::cout << str << std::endl;
 	}
@@ -107,6 +111,7 @@ void read_from_file(Human& object, const std::string& PATH)
 	}
 
 	std::fstream fs;
+	fs.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 	fs.open(PATH, std::ios_base::in);
 
 	if (!fs.is_open())
@@ -175,9 +180,9 @@ int main()
 				return 0;
 			}
 		}
-		catch (std::exception& ex)
+		catch (const std::fstream::failure& ex)
 		{
-			std::cout << "Exception: " << ex.what() << std::endl;
+			std::cout << "Exception: " << ex.what() << " - " << ex.code() << std::endl;
 		}
 		std::cout << std::string(25, '<') << std::endl;
 	}
