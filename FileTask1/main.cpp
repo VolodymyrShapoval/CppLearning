@@ -82,7 +82,7 @@ void read_from_file(const std::string& PATH)
 		throw std::invalid_argument("The file path is empty!");
 	}
 
-	std::fstream fs;
+	std::ifstream fs;
 	fs.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 	fs.open(PATH, std::ios_base::in);
 
@@ -161,8 +161,9 @@ int main()
 				std::cout << "Input age: ";
 				std::cin >> age;
 
-				Human human = Human(name, age);
-				write_to_file(human, objectPATH);
+				Human* human = new Human(name, age);
+				write_to_file(*human, objectPATH);
+				delete human;
 				break;
 			}
 			case 3:
@@ -173,6 +174,7 @@ int main()
 				Human* object = new Human();
 				read_from_file<Human>(*object, objectPATH);
 				std::cout << *object << std::endl;
+				delete object;
 				break;
 			}
 			case 0:
