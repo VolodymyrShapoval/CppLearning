@@ -6,18 +6,27 @@
 class Human
 {
 public:
-	Human() = default;
+	Human() : m_name("Noname"), m_age(0) {}
 	Human(const std::string& name, const std::size_t age) : m_name(name), m_age(age) {}
-	void display_info()
+	std::string getName() const
 	{
-		std::cout << "Name: " << this->m_name << std::endl;
-		std::cout << "Age: " << this->m_age << std::endl;
+		return this->m_name;
+	}
+	std::size_t getAge() const
+	{
+		return this->m_age;
 	}
 
 private:
 	std::string m_name;
 	std::size_t m_age;
 };
+
+std::ostream& operator <<(std::ostream& os, const Human& human)
+{
+	os << human.getName() << " - " << human.getAge();
+	return os;
+}
 
 void write_to_file(const std::string& PATH)
 {
@@ -156,7 +165,7 @@ int main()
 			{
 				Human* object = new Human();
 				read_from_file<Human>(*object, objectPATH);
-				object->display_info();
+				std::cout << *object << std::endl;
 				break;
 			}
 			case 0:
