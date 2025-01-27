@@ -105,7 +105,7 @@ public:
 	{
 		return this->size;
 	}
-	void pushFront(T value)
+	void pushFront(const T& value)
 	{
 		Node<T>* newNode = new Node<T>(value);
 		newNode->next = head;
