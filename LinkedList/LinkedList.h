@@ -135,7 +135,7 @@ public:
 		delete current;
 		--size;
 	}
-	void insertAt(int index, T value)
+	void insertAt(int index, const T& value)
 	{
 		if (index > size)
 		{
@@ -187,7 +187,7 @@ public:
 		delete deleteNode;
 		--size;
 	}
-	void pushBack(T value)
+	void pushBack(const T& value)
 	{
 		if (head == nullptr)
 		{

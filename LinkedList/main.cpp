@@ -14,12 +14,12 @@ int main()
 
 		LinkedList<string> strList;
 		
-		strList.pushFront("Doe");
-		strList.pushFront("John");
-		strList.pushFront("is");
-		strList.pushFront("name");
-		strList.pushFront("My");
-		strList.pushFront("Hello!");
+		strList.pushBack("Doe");
+		strList.pushBack("John");
+		strList.pushBack("is");
+		strList.pushBack("name");
+		strList.pushBack("My");
+		strList.pushBack("Hello!");
 		strList.print();
 
 		/*myList.generateList(10, 97, 122);
