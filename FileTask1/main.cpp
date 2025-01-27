@@ -7,7 +7,13 @@ class Human
 {
 public:
 	Human() : m_name("Noname"), m_age(0) {}
-	Human(const std::string& name, const std::size_t age) : m_name(name), m_age(age) {}
+	Human(const std::string& name, const std::size_t age) : m_name(name), m_age(age)
+	{
+		if (age > 120)
+		{
+			throw std::exception("Age cannot be greater than 120!");
+		}
+	}
 
 	friend std::ostream& operator <<(std::ostream& os, const Human& human);
 	friend std::istream& operator >>(std::istream& is, Human& human);
@@ -184,7 +190,11 @@ int main()
 		}
 		catch (const std::fstream::failure& ex)
 		{
-			std::cout << "Exception: " << ex.what() << " - " << ex.code() << std::endl;
+			std::cout << "File exception: " << ex.what() << " - " << ex.code() << std::endl;
+		}
+		catch (const std::exception& ex)
+		{
+			std::cout << "Exception: " << ex.what() << std::endl;
 		}
 		std::cout << std::string(25, '<') << std::endl;
 	}
