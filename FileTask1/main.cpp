@@ -3,6 +3,22 @@
 #include <stdexcept>
 #include <fstream>
 
+class AgeException : public std::exception
+{
+public:
+	AgeException(const char* const text, const std::size_t value) : std::exception(text) 
+	{
+		this->m_value = value;
+	}
+	std::size_t getWrongData() const
+	{
+		return this->m_value;
+	}
+
+private:
+	std::size_t m_value;
+};
+
 class Human
 {
 public:
@@ -11,8 +27,17 @@ public:
 	{
 		if (age > 120)
 		{
-			throw std::exception("Age cannot be greater than 120!");
+			throw AgeException("Value cannot be greater than 120!", age);
 		}
+	}
+	Human(const Human&& other)
+	{
+		if (other.m_name == "" || other.m_age == 0)
+		{
+			throw AgeException("Value cannot be greater than 120!", other.m_age);
+		}
+		this->m_name = other.m_name;
+		this->m_age = other.m_age;
 	}
 
 	friend std::ostream& operator <<(std::ostream& os, const Human& human);
@@ -191,6 +216,11 @@ int main()
 		catch (const std::fstream::failure& ex)
 		{
 			std::cout << "File exception: " << ex.what() << " - " << ex.code() << std::endl;
+		}
+		catch (const AgeException& ex)
+		{
+			std::cout << "Age exception: " << ex.what() << std::endl;
+			std::cout << "Your value: " << ex.getWrongData() << std::endl;
 		}
 		catch (const std::exception& ex)
 		{
