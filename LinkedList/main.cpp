@@ -9,21 +9,21 @@ int main()
 	srand(time(NULL));
 	try
 	{
-		LinkedList<char> myList;
-		LinkedList<char> newList;
-
 		LinkedList<string> strList;
-		
-		strList.pushBack("Doe");
-		strList.pushBack("John");
-		strList.pushBack("is");
-		strList.pushBack("name");
-		strList.pushBack("My");
+		LinkedList<char> myList;
+
+		cout << "String list: ";
 		strList.pushBack("Hello!");
+		strList.pushBack("My");
+		strList.pushBack("name");
+		strList.pushBack("is");
+		strList.pushBack("John");
+		strList.pushBack("Doe");
 		strList.print();
 
-		/*myList.generateList(10, 97, 122);
-		myList.print();*/
+		cout << "Char list: ";
+		myList.generateList(10, 97, 122);
+		myList.print();
 	}
 	catch (exception& ex)
 	{
