@@ -196,6 +196,10 @@ int main()
 		{
 			std::cout << "Exception: " << ex.what() << std::endl;
 		}
+		catch (...)
+		{
+			std::cout << "Something goes wrong!" << std::endl;
+		}
 		std::cout << std::string(25, '<') << std::endl;
 	}
 	return 0;
