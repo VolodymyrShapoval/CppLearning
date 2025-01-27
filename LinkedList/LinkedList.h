@@ -37,7 +37,7 @@ public:
 		this->head = nullptr;
 		this->size = 0;
 	}
-	LinkedList(T value)
+	LinkedList(const T& value)
 	{
 		this->head = new Node<T>(value);
 		this->size = 1;
