@@ -2,6 +2,51 @@
 #include <string>
 #include <stdexcept>
 
+namespace shootmode
+{
+	class IShootingMode
+	{
+	public:
+		virtual void Shoot() const = 0;
+	};
+
+	class SafeShootingMode : public IShootingMode
+	{
+	public:
+		void Shoot() const override
+		{
+			std::cout << "Weapon is in SAFE mode. Cannot shoot!" << std::endl;
+		}
+	};
+
+	class SingleShootingMode : public IShootingMode
+	{
+	public:
+		void Shoot() const override
+		{
+			std::cout << "Weapon is in SINGLE mode" << std::endl;
+		}
+	};
+
+	class BurstShootingMode : public IShootingMode
+	{
+	public:
+		void Shoot() const override
+		{
+			std::cout << "Weapon is in BURST mode" << std::endl;
+		}
+	};
+
+	class FullAutoShootingMode : public IShootingMode
+	{
+	public:
+		void Shoot() const override
+		{
+			std::cout << "Weapon is in FULL auto" << std::endl;
+		}
+	};
+}
+
 namespace wpn
 {
 	// Abstract class, 
