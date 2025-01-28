@@ -30,7 +30,7 @@ public:
 			throw AgeException("Value cannot be greater than 120!", age);
 		}
 	}
-	Human(const Human&& other)
+	Human(const Human&& other) noexcept
 	{
 		if (other.m_name == "" || other.m_age == 0)
 		{
