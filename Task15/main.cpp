@@ -1,6 +1,13 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <memory>
+
+#define SHOOTING_MODE_PTR			std::unique_ptr<shootmode::IShootingMode> 
+#define SAFE_SHOOTING_MODE_PTR		std::make_unique<shootmode::SafeShootingMode>()
+#define SINGLE_SHOOTING_MODE_PTR	std::make_unique<shootmode::SingleShootingMode>()
+#define BURST_SHOOTING_MODE_PTR		std::make_unique<shootmode::BurstShootingMode>()
+#define FULL_AUTO_SHOOTING_MODE_PTR std::make_unique<shootmode::FullAutoShootingMode>()
 
 namespace shootmode
 {
@@ -50,48 +57,38 @@ namespace shootmode
 
 namespace wpn
 {
-	// Abstract class, 
-	// Inheritance, 
-	// Virtual methods,
-	// Virtual constructors, 
-	// Call virtual method from base class
-
 	class Weapon
 	{
 	public:
-		Weapon(shootmode::IShootingMode* mode = new shootmode::SafeShootingMode()) : m_pShootingMode(mode)
+		Weapon(SHOOTING_MODE_PTR mode = SAFE_SHOOTING_MODE_PTR) : m_pShootingMode(std::move(mode))
 		{
 			std::cout << "Loading weapon..." << std::endl;
 		}
 		virtual ~Weapon()
 		{
-			delete m_pShootingMode;
 			std::cout << "Out of ammunition!" << std::endl;
 		}
-		const shootmode::IShootingMode& getShootingMode() const
+		const SHOOTING_MODE_PTR& getShootingMode() const
 		{
-			return *this->m_pShootingMode;
+			return m_pShootingMode;
 		}
-		void setShootingMode(shootmode::IShootingMode* mode)
+		void setShootingMode(SHOOTING_MODE_PTR mode)
 		{
-			if (m_pShootingMode != nullptr) {
-				delete m_pShootingMode;
-			}
-			this->m_pShootingMode = mode;
+			m_pShootingMode = std::move(mode);
 		}
-		virtual void printInfo() = 0;
-		virtual void Shoot() = 0;
+		virtual void printInfo() noexcept = 0;
+		virtual void Shoot() const = 0;
 
 	protected:
-		shootmode::IShootingMode* m_pShootingMode;
+		SHOOTING_MODE_PTR m_pShootingMode;
 	};
 
 	class Gun : public Weapon
 	{
 	public:
 		Gun() : Weapon() {}
-		Gun(shootmode::IShootingMode* mode) : Weapon(mode) {}
-		void Shoot() override
+		Gun(SHOOTING_MODE_PTR mode) : Weapon(std::move(mode)) {}
+		void Shoot() const override
 		{
 			m_pShootingMode->Shoot();
 		}
@@ -101,8 +98,8 @@ namespace wpn
 	{
 	public:
 		SubmachineGun() : Weapon() {}
-		SubmachineGun(shootmode::IShootingMode* mode) : Weapon(mode) {}
-		void Shoot() override
+		SubmachineGun(SHOOTING_MODE_PTR mode) : Weapon(std::move(mode)) {}
+		void Shoot() const override
 		{
 			m_pShootingMode->Shoot();
 		}
@@ -115,14 +112,14 @@ namespace wpn
 		{
 			printInfo();
 		}
-		Fort17(shootmode::IShootingMode* mode) : Gun(mode)
+		Fort17(SHOOTING_MODE_PTR mode) : Gun(std::move(mode))
 		{
 			printInfo();
 		}
-		void printInfo() override
+		void printInfo() noexcept override
 		{
-			std::cout << "Title: Fort17" << std::endl;
-			std::cout << "16 rounds, 40-45 rounds/min, effective range: 50 m" << std::endl;
+			std::cout << "-> Title: Fort17" << std::endl;
+			std::cout << "\t16 rounds, 40-45 rounds/min, effective range: 50 m" << std::endl;
 		}
 	};
 
@@ -133,14 +130,14 @@ namespace wpn
 		{
 			printInfo();
 		}
-		Kolt1911(shootmode::IShootingMode* mode) : Gun(mode)
+		Kolt1911(SHOOTING_MODE_PTR mode) : Gun(std::move(mode))
 		{
 			printInfo();
 		}
-		void printInfo() override
+		void printInfo() noexcept override
 		{
-			std::cout << "Title: Kolt1911" << std::endl;
-			std::cout << "7-8 rounds, 40-50 rounds/min, effective range: 50 m" << std::endl;
+			std::cout << "-> Title: Kolt1911" << std::endl;
+			std::cout << "\t7-8 rounds, 40-50 rounds/min, effective range: 50 m" << std::endl;
 		}
 	};
 
@@ -151,52 +148,52 @@ namespace wpn
 		{
 			printInfo();
 		}
-		M1928(shootmode::IShootingMode* mode) : SubmachineGun(mode)
+		M1928(SHOOTING_MODE_PTR mode) : SubmachineGun(std::move(mode))
 		{
 			printInfo();
 		}
-		void printInfo() override
+		void printInfo() noexcept override
 		{
-			std::cout << "Title: Thompson M1928" << std::endl;
-			std::cout << "20-30 rounds, 600-725 rounds/min, effective range: 150 m" << std::endl;
+			std::cout << "-> Title: Thompson M1928" << std::endl;
+			std::cout << "\t20-30 rounds, 600-725 rounds/min, effective range: 150 m" << std::endl;
 		}
 	};
 }
 
-class Player
+namespace player
 {
-public:
-	Player(std::string username) : m_username(username), m_age(0) {}
-	Player(std::string username, std::size_t age) : Player(username) 
+	class Player
 	{
-		this->m_age = age;
-	}
-	Player(std::string username, std::size_t age, std::size_t level) : Player(username, age)
-	{
-		this->m_level = level;
-	}
-
-	void Shoot(wpn::Weapon* weapon)
-	{
-		if (weapon == nullptr)
+	public:
+		Player(std::string username) : m_username(username), m_age(0) {}
+		Player(std::string username, std::size_t age) : Player(username)
 		{
-			throw std::exception("Weapon does not exist!");
+			this->m_age = age;
 		}
-		weapon->Shoot();
-	}
+		Player(std::string username, std::size_t age, std::size_t level) : Player(username, age)
+		{
+			this->m_level = level;
+		}
 
-private:
-	std::string m_username;
-	std::size_t m_age;
-	std::size_t	m_level = 1;
-	std::size_t	m_experiencePoints = 0;
-};
+		void Shoot(std::shared_ptr<wpn::Weapon> weapon) const
+		{
+			if (weapon == nullptr)
+			{
+				throw std::exception("Weapon does not exist!");
+			}
+			weapon->Shoot();
+		}
+
+	private:
+		std::string m_username;
+		std::size_t m_age;
+		std::size_t	m_level = 1;
+		std::size_t	m_experiencePoints = 0;
+	};
+}
 
 namespace vhcl
 {
-	// Multiple inheritance
-	// Interfaces
-
 	class IMoveable
 	{
 	public:
@@ -292,56 +289,91 @@ namespace vhcl
 	};
 }
 
+void clearConsole() {
+#ifdef _WIN32
+	system("cls");  // Windows
+#else
+	system("clear");  // Linux/macOS
+#endif
+}
+
+void showMenu()
+{
+	std::cout << "1. Fort17\n"
+		<< "2. Kolt1911\n"
+		<< "3. M1928\n"
+		<< "4. Drone\n"
+		<< "0. Exit\n";
+}
+
 int main()
 {
 	try
 	{
-		Player player1("FatCat1408");
+		player::Player player("FatCat1408");
 
-		wpn::Weapon* gun1 = new wpn::Fort17(); 
-		player1.Shoot(gun1);
-		std::cout << std::string(20, '>') << std::endl;
-		gun1->setShootingMode(new shootmode::SingleShootingMode());
-		player1.Shoot(gun1);
+		while (true)
+		{
+			showMenu();
+			std::cout << "Choose weapon: ";
+			std::size_t choice;
+			std::cin >> choice;
 
-		delete gun1;
-		std::cout << std::endl;
+			clearConsole();
 
-		wpn::Kolt1911* gun2 = new wpn::Kolt1911();
-		player1.Shoot(gun2);
-		std::cout << std::string(20, '>') << std::endl;
-		gun2->setShootingMode(new shootmode::SingleShootingMode());
-		player1.Shoot(gun2);
-
-		delete gun2;
-		std::cout << std::endl;
-
-		wpn::M1928* submachineGun1 = new wpn::M1928();
-		player1.Shoot(submachineGun1);
-		std::cout << std::string(20, '>') << std::endl;
-		submachineGun1->setShootingMode(new shootmode::BurstShootingMode());
-		player1.Shoot(submachineGun1);
-		std::cout << std::string(20, '>') << std::endl;
-		submachineGun1->setShootingMode(new shootmode::FullAutoShootingMode());
-		player1.Shoot(submachineGun1);
-
-		delete submachineGun1;
-		std::cout << std::endl;
-
-
-		vhcl::Drone* drone1 = new vhcl::Drone(5);
-		drone1->Move();
-		drone1->SpeedUp();
-		drone1->Car::DisplayInfo();
-		drone1->Airplan::DisplayInfo();
-		drone1->DisplayInfo();
-		std::cout << std::endl;
-
-		delete drone1;
+			switch (choice)
+			{
+			case 1:
+			{
+				std::shared_ptr<wpn::Weapon> gun = std::make_shared<wpn::Fort17>();
+				player.Shoot(gun);
+				gun->setShootingMode(SINGLE_SHOOTING_MODE_PTR);
+				player.Shoot(gun);
+				break;
+			}
+			case 2:
+			{
+				std::shared_ptr<wpn::Kolt1911> gun = std::make_shared<wpn::Kolt1911>();
+				player.Shoot(gun);
+				gun->setShootingMode(SINGLE_SHOOTING_MODE_PTR);
+				player.Shoot(gun);
+				break;
+			}
+			case 3:
+			{
+				std::shared_ptr<wpn::M1928> submachineGun = std::make_shared<wpn::M1928>();
+				player.Shoot(submachineGun);
+				std::cout << std::string(20, '>') << std::endl;
+				submachineGun->setShootingMode(BURST_SHOOTING_MODE_PTR);
+				player.Shoot(submachineGun);
+				std::cout << std::string(20, '>') << std::endl;
+				submachineGun->setShootingMode(FULL_AUTO_SHOOTING_MODE_PTR);
+				player.Shoot(submachineGun);
+				break;
+			}
+			case 4:
+			{
+				std::unique_ptr<vhcl::Drone> drone = std::make_unique<vhcl::Drone>(5);
+				drone->Move();
+				drone->SpeedUp();
+				drone->Car::DisplayInfo();
+				drone->Airplan::DisplayInfo();
+				drone->DisplayInfo();
+				std::cout << std::endl;
+				break;
+			}
+			case 0:
+				return false;
+			default:
+				std::cout << "Invalid choice, try again." << std::endl;
+				break;
+			}
+			std::cout << std::string(20, '>') << std::endl;
+		}
 	}
 	catch (std::exception& ex)
 	{
-		std::cout << "Exception: " << ex.what() << std::endl;
+		std::cerr << "Exception: " << ex.what() << std::endl;
 	}
 	return 0;
 }
