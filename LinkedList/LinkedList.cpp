@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include <stdexcept>
 
 template <class T>
 LinkedList<T>::LinkedList()
@@ -38,7 +39,7 @@ LinkedList<T>::~LinkedList()
 }
 
 template <class T>
-T& LinkedList<T>::operator [] (const size_t index) const
+T& LinkedList<T>::operator [] (size_t index) const
 {
 	if (index >= this->size)
 	{
@@ -90,8 +91,7 @@ inline T& LinkedList<T>::getHead() const
 {
 	if (head == nullptr)
 	{
-		cout << "Empty linked list" << endl;
-		return;
+		throw runtime_error("Empty linked list");
 	}
 
 	return head->value;
@@ -227,7 +227,7 @@ void LinkedList<T>::generate(int size, int start, int end)
 }
 
 template <class T>
-void LinkedList<T>::print()
+void LinkedList<T>::print() const
 {
 	if (head == nullptr)
 	{
@@ -252,3 +252,5 @@ void LinkedList<T>::clear()
 		popFront();
 	}
 }
+
+template class LinkedList<int>;

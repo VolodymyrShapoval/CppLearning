@@ -9,20 +9,23 @@ int main()
 	srand(time(NULL));
 	try
 	{
-		LinkedList<string> strList;
-		LinkedList<char> myList;
+		LinkedList<int> myList;
 
-		cout << "String list: ";
-		strList.pushBack("Hello!");
-		strList.pushBack("My");
-		strList.pushBack("name");
-		strList.pushBack("is");
-		strList.pushBack("John");
-		strList.pushBack("Doe");
-		strList.print();
-
-		cout << "Char list: ";
-		myList.generateList(10, 97, 122);
+		myList.generate(5, 0, 10);
+		myList.print();
+		myList.getHead();
+		myList.getSize();
+		myList.clear();
+		myList.pushFront(1);
+		myList.pushBack(3);
+		myList.pushBack(4);
+		myList.insert(2, 1);
+		myList.print();
+		myList.popFront();
+		myList.print();
+		myList.removeAt(1);
+		myList.print();
+		myList.popBack();
 		myList.print();
 	}
 	catch (exception& ex)

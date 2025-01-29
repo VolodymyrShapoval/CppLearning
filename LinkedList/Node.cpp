@@ -13,3 +13,5 @@ Node<T>::Node(const Node<T>& node)
 	this->value = node.value;
 	this->next = node.next;
 }
+
+template class Node<int>;

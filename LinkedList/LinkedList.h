@@ -1,6 +1,8 @@
 #pragma once
+#ifndef _LINKED_LIST_H_
+#define _LINKED_LIST_H_
+
 #include <iostream>
-#include <stdexcept>
 #include "Node.h"
 
 using namespace std;
@@ -53,3 +55,5 @@ private:
 	Node<T>* head;
 	int size;
 };
+
+#endif // !_LINKED_LIST_H_

@@ -29,7 +29,7 @@ public:
 
 		this->str[this->length] = '\0';
 	}
-	MyString(MyString&& other)
+	MyString(MyString&& other) noexcept
 	{
 		this->length = other.length;
 		this->str = other.str;
