@@ -239,9 +239,7 @@ void LinkedList<T>::print()
 template <class T>
 void LinkedList<T>::clear()
 {
-	if (head == nullptr) return;
-
-	for (size_t i = 0; i < size; ++i)
+	while(size)
 	{
 		popFront();
 	}
