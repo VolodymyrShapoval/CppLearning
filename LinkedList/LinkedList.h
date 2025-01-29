@@ -27,9 +27,9 @@ public:
 	LinkedList<T>& operator --() = delete;
 	LinkedList<T>& operator --(int) = delete;
 
-	int getSize() const;
+	inline int getSize() const;
 
-	T& getHead();
+	T& getHead() const;
 
 	void pushFront(const T& value);
 
@@ -37,13 +37,15 @@ public:
 
 	void popFront();
 
-	void insertAt(int index, const T& value);
+	void popBack();
+
+	void insert(const T& value, int index);
 
 	void removeAt(int index);
 
-	void generateList(int size, int start, int end);
+	void generate(int size, int start, int end);
 
-	void print();
+	void print() const;
 
 	void clear();
 

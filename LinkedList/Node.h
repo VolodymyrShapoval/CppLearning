@@ -8,7 +8,7 @@ public:
 	T value;
 	Node<T>* next;
 
-	Node(T value = T(), Node<T>* next = nullptr);
+	Node(const T& value = T(), Node<T>* next = nullptr);
 	Node(const Node<T>& node);
 };
 

@@ -80,29 +80,27 @@ bool LinkedList<T>::operator != (const LinkedList<T>& other) const
 }
 
 template <class T>
-int LinkedList<T>::getSize() const
+inline int LinkedList<T>::getSize() const
 {
 	return this->size;
 }
 
 template <class T>
-T& LinkedList<T>::getHead()
+inline T& LinkedList<T>::getHead() const
 {
-	if (this->head == nullptr)
+	if (head == nullptr)
 	{
 		cout << "Empty linked list" << endl;
 		return;
 	}
 
-	return this->head->value;
+	return head->value;
 }
 
 template <class T>
 void LinkedList<T>::pushFront(const T& value)
 {
-	Node<T>* newNode = new Node<T>(value);
-	newNode->next = head;
-	head = newNode;
+	head = new Node<T>(value, head);
 	++size;
 }
 
@@ -141,7 +139,19 @@ void LinkedList<T>::popFront()
 }
 
 template <class T>
-void LinkedList<T>::insertAt(int index, const T& value)
+void LinkedList<T>::popBack()
+{
+	if (head == nullptr)
+	{
+		cout << "Empty linked list" << endl;
+		return;
+	}
+
+	removeAt(size - 1);
+}
+
+template <class T>
+void LinkedList<T>::insert(const T& value, int index)
 {
 	if (index > size)
 	{
@@ -162,9 +172,7 @@ void LinkedList<T>::insertAt(int index, const T& value)
 	{
 		current = current->next;
 	}
-	Node<T>* newNode = new Node<T>(value);
-	newNode->next = current->next;
-	current->next = newNode;
+	current->next = new Node<T>(value, current->next);
 	++size;
 }
 
@@ -197,7 +205,7 @@ void LinkedList<T>::removeAt(int index)
 }
 
 template <class T>
-void LinkedList<T>::generateList(int size, int start, int end)
+void LinkedList<T>::generate(int size, int start, int end)
 {
 	if (size < 0)
 	{
