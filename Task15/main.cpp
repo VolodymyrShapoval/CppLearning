@@ -7,13 +7,14 @@ namespace shootmode
 	class IShootingMode
 	{
 	public:
-		virtual void Shoot() const = 0;
+		virtual void Shoot() const noexcept = 0;
 	};
 
 	class SafeShootingMode : public IShootingMode
 	{
 	public:
-		void Shoot() const override
+		SafeShootingMode() = default;
+		void Shoot() const noexcept override
 		{
 			std::cout << "Weapon is in SAFE mode. Cannot shoot!" << std::endl;
 		}
@@ -22,7 +23,7 @@ namespace shootmode
 	class SingleShootingMode : public IShootingMode
 	{
 	public:
-		void Shoot() const override
+		void Shoot() const noexcept override
 		{
 			std::cout << "Weapon is in SINGLE mode" << std::endl;
 		}
@@ -31,7 +32,7 @@ namespace shootmode
 	class BurstShootingMode : public IShootingMode
 	{
 	public:
-		void Shoot() const override
+		void Shoot() const noexcept override
 		{
 			std::cout << "Weapon is in BURST mode" << std::endl;
 		}
@@ -40,7 +41,7 @@ namespace shootmode
 	class FullAutoShootingMode : public IShootingMode
 	{
 	public:
-		void Shoot() const override
+		void Shoot() const noexcept override
 		{
 			std::cout << "Weapon is in FULL auto" << std::endl;
 		}
@@ -58,52 +59,41 @@ namespace wpn
 	class Weapon
 	{
 	public:
-		enum WeaponShootingMode
-		{
-			SAFE,
-			SINGLE,
-			BURST,
-			FULL_AUTO
-		};
-		Weapon(WeaponShootingMode mode = WeaponShootingMode::SAFE) : m_shootingMode(mode)
+		Weapon(shootmode::IShootingMode* mode = new shootmode::SafeShootingMode()) : m_pShootingMode(mode)
 		{
 			std::cout << "Loading weapon..." << std::endl;
 		}
 		virtual ~Weapon()
 		{
+			delete m_pShootingMode;
 			std::cout << "Out of ammunition!" << std::endl;
 		}
-		WeaponShootingMode getShootingMode() const
+		const shootmode::IShootingMode& getShootingMode() const
 		{
-			return this->m_shootingMode;
+			return *this->m_pShootingMode;
 		}
-		void setShootingMode(WeaponShootingMode mode)
+		void setShootingMode(shootmode::IShootingMode* mode)
 		{
-			this->m_shootingMode = mode;
+			if (m_pShootingMode != nullptr) {
+				delete m_pShootingMode;
+			}
+			this->m_pShootingMode = mode;
 		}
 		virtual void printInfo() = 0;
 		virtual void Shoot() = 0;
 
 	protected:
-		WeaponShootingMode m_shootingMode;
+		shootmode::IShootingMode* m_pShootingMode;
 	};
 
 	class Gun : public Weapon
 	{
 	public:
 		Gun() : Weapon() {}
-		Gun(WeaponShootingMode mode) : Weapon(mode) {}
+		Gun(shootmode::IShootingMode* mode) : Weapon(mode) {}
 		void Shoot() override
 		{
-			switch (m_shootingMode)
-			{
-			case SAFE:
-				std::cout << "Weapon is in SAFE mode. Cannot shoot!" << std::endl;
-				break;
-			case SINGLE:
-				std::cout << "Weapon is in SINGLE mode" << std::endl;
-				break;
-			}
+			m_pShootingMode->Shoot();
 		}
 	};
 
@@ -111,21 +101,10 @@ namespace wpn
 	{
 	public:
 		SubmachineGun() : Weapon() {}
-		SubmachineGun(WeaponShootingMode mode) : Weapon(mode) {}
+		SubmachineGun(shootmode::IShootingMode* mode) : Weapon(mode) {}
 		void Shoot() override
 		{
-			switch (m_shootingMode)
-			{
-			case SAFE:
-				std::cout << "Weapon is in SAFE mode. Cannot shoot!" << std::endl;
-				break;
-			case BURST:
-				std::cout << "Weapon is in BURST mode" << std::endl;
-				break;
-			case FULL_AUTO:
-				std::cout << "Weapon is in FULL auto" << std::endl;
-				break;
-			}
+			m_pShootingMode->Shoot();
 		}
 	};
 
@@ -136,7 +115,7 @@ namespace wpn
 		{
 			printInfo();
 		}
-		Fort17(WeaponShootingMode mode) : Gun(mode)
+		Fort17(shootmode::IShootingMode* mode) : Gun(mode)
 		{
 			printInfo();
 		}
@@ -154,7 +133,7 @@ namespace wpn
 		{
 			printInfo();
 		}
-		Kolt1911(WeaponShootingMode mode) : Gun(mode)
+		Kolt1911(shootmode::IShootingMode* mode) : Gun(mode)
 		{
 			printInfo();
 		}
@@ -172,7 +151,7 @@ namespace wpn
 		{
 			printInfo();
 		}
-		M1928(WeaponShootingMode mode) : SubmachineGun(mode)
+		M1928(shootmode::IShootingMode* mode) : SubmachineGun(mode)
 		{
 			printInfo();
 		}
@@ -300,7 +279,7 @@ namespace vhcl
 			std::cout << "Mission complete..." << std::endl;
 		}
 		void Move() override {
-			::Airplan::Move();
+			vhcl::Airplan::Move();
 		}
 		void SpeedUp() override {
 			this->speed += 15;
@@ -322,7 +301,7 @@ int main()
 		wpn::Weapon* gun1 = new wpn::Fort17(); 
 		player1.Shoot(gun1);
 		std::cout << std::string(20, '>') << std::endl;
-		gun1->setShootingMode(wpn::Weapon::WeaponShootingMode::SINGLE);
+		gun1->setShootingMode(new shootmode::SingleShootingMode());
 		player1.Shoot(gun1);
 
 		delete gun1;
@@ -331,7 +310,7 @@ int main()
 		wpn::Kolt1911* gun2 = new wpn::Kolt1911();
 		player1.Shoot(gun2);
 		std::cout << std::string(20, '>') << std::endl;
-		gun2->setShootingMode(wpn::Weapon::WeaponShootingMode::SINGLE);
+		gun2->setShootingMode(new shootmode::SingleShootingMode());
 		player1.Shoot(gun2);
 
 		delete gun2;
@@ -340,10 +319,10 @@ int main()
 		wpn::M1928* submachineGun1 = new wpn::M1928();
 		player1.Shoot(submachineGun1);
 		std::cout << std::string(20, '>') << std::endl;
-		submachineGun1->setShootingMode(wpn::Weapon::WeaponShootingMode::BURST);
+		submachineGun1->setShootingMode(new shootmode::BurstShootingMode());
 		player1.Shoot(submachineGun1);
 		std::cout << std::string(20, '>') << std::endl;
-		submachineGun1->setShootingMode(wpn::Weapon::WeaponShootingMode::FULL_AUTO);
+		submachineGun1->setShootingMode(new shootmode::FullAutoShootingMode());
 		player1.Shoot(submachineGun1);
 
 		delete submachineGun1;
