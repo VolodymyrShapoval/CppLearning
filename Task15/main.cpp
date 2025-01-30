@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <memory>
 
-#define SHOOTING_MODE_PTR			std::unique_ptr<shootmode::IShootingMode> 
+#define	SHOOTING_MODE_PTR			std::unique_ptr<shootmode::IShootingMode>
 #define SAFE_SHOOTING_MODE_PTR		std::make_unique<shootmode::SafeShootingMode>()
 #define SINGLE_SHOOTING_MODE_PTR	std::make_unique<shootmode::SingleShootingMode>()
 #define BURST_SHOOTING_MODE_PTR		std::make_unique<shootmode::BurstShootingMode>()
