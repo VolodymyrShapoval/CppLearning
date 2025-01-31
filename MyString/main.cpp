@@ -33,6 +33,7 @@ public:
 	{
 		this->length = other.length;
 		this->str = other.str;
+		other.length = 0;
 		other.str = nullptr;
 	}
 	~MyString()
