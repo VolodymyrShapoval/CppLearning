@@ -8,7 +8,6 @@
 
 template <class T>
 using vector_const_iter = typename std::vector<T>::const_iterator;
-
 template <class T>
 using vector_const_rev_iter = typename std::vector<T>::const_reverse_iterator;
 
@@ -17,11 +16,8 @@ class VectorTraining
 {
 public:
 	static void print(const std::vector<T>& myVec);
-
 	static void reverse_print(const std::vector<T>& myVec);
-
 	static void vector_work(size_t countOfElements, const T& element, size_t reserveNumber);
-
 	static void vector_work(const std::vector<T>& arr, size_t reserveNumber);
 };
 
