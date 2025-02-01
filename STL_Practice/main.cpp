@@ -45,6 +45,30 @@ void reverse_print(const std::vector<T>& myVec)
 	std::cout << std::endl;
 };
 
+void generate_vector(std::vector<int>& vec, std::size_t size)
+{
+	srand(time(NULL));
+
+	vec.reserve(size);
+
+	while (size > 0)
+	{
+		vec.push_back(rand() % 50 + 10);
+		--size;
+	}
+}
+
+void redefine_vector(std::vector<int>& vec)
+{
+	std::vector<int>::iterator it = vec.begin();
+
+	while (it != vec.end())
+	{
+		*it = rand() % 50 + 10;
+		std::advance(it, 1);
+	}
+}
+
 template <class T>
 void vector_work(size_t countOfElements, const T& element, size_t reserveNumber)
 {
@@ -81,8 +105,13 @@ int main()
 {
 	try
 	{
-		std::vector<int> templateVec = {1, 5, 2, 4, 7};
+		std::vector<int> templateVec;
+		generate_vector(templateVec, 10);
 		vector_work<int>(templateVec, 15);
+		templateVec.resize(15);
+		print(templateVec);
+		redefine_vector(templateVec);
+		print(templateVec);
 	}
 	catch (const std::exception& ex)
 	{
