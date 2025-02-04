@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 #include <stdexcept>
 #include "VectorTraining.h"
 #include "IntVectorTraining.h"
+#include "ListTraining.h"
 
 void menu()
 {
@@ -44,6 +46,18 @@ int main()
 				VectorTraining<int>::print(templateVec);
 				IntVectorTraining::redefine_vector(templateVec);
 				VectorTraining<int>::print(templateVec);
+				break;
+			}
+			case 2:
+			{
+				std::list<int> templateList;
+				std::cout << "List: ";
+				templateList.push_back(1);
+				templateList.push_back(2);
+				templateList.push_back(3);
+				templateList.push_back(4);
+				templateList.push_back(5);
+				ListTraining<int>::print(templateList);
 				break;
 			}
 			case 0:

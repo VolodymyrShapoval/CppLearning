@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IntVectorTraining.cpp" />
+    <ClCompile Include="ListTraining.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VectorTraining.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntVectorTraining.h" />
+    <ClInclude Include="ListTraining.h" />
     <ClInclude Include="VectorTraining.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
