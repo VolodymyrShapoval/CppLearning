@@ -127,15 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IntVectorTraining.cpp" />
+    <ClCompile Include="VectorGenerator.cpp" />
     <ClCompile Include="ListDisplay.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VectorTraining.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IntVectorTraining.h" />
+    <ClInclude Include="VectorGenerator.h" />
     <ClInclude Include="ListDisplay.h" />
-    <ClInclude Include="VectorTraining.h" />
+    <ClInclude Include="VectorDisplay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _VECTOR_TRAINING_
-#define _VECTOR_TRAINING_
+#ifndef _VECTOR_DISPLAY_
+#define _VECTOR_DISPLAY_
 
 #include <iostream>
 #include <string>
@@ -12,7 +12,7 @@ template <class T>
 using vector_const_rev_iter = typename std::vector<T>::const_reverse_iterator;
 
 template <class T>
-class VectorTraining
+class VectorDisplay
 {
 public:
 	static void print(const std::vector<T>& myVec);
@@ -23,7 +23,7 @@ public:
 
 
 template <class T>
-void VectorTraining<T>::print(const std::vector<T>& myVec)
+void VectorDisplay<T>::print(const std::vector<T>& myVec)
 {
 	if (myVec.empty())
 	{
@@ -40,7 +40,7 @@ void VectorTraining<T>::print(const std::vector<T>& myVec)
 };
 
 template <class T>
-void VectorTraining<T>::reverse_print(const std::vector<T>& myVec)
+void VectorDisplay<T>::reverse_print(const std::vector<T>& myVec)
 {
 	if (myVec.empty())
 	{
@@ -58,7 +58,7 @@ void VectorTraining<T>::reverse_print(const std::vector<T>& myVec)
 };
 
 template <class T>
-void VectorTraining<T>::vector_work(size_t countOfElements, const T& element, size_t reserveNumber)
+void VectorDisplay<T>::vector_work(size_t countOfElements, const T& element, size_t reserveNumber)
 {
 	std::vector<T> myVec(countOfElements, element);
 	myVec.reserve(reserveNumber);
@@ -74,7 +74,7 @@ void VectorTraining<T>::vector_work(size_t countOfElements, const T& element, si
 }
 
 template <class T>
-void VectorTraining<T>::vector_work(const std::vector<T>& arr, size_t reserveNumber)
+void VectorDisplay<T>::vector_work(const std::vector<T>& arr, size_t reserveNumber)
 {
 	std::vector<T> myVec(arr);
 	myVec.reserve(reserveNumber);
@@ -89,5 +89,5 @@ void VectorTraining<T>::vector_work(const std::vector<T>& arr, size_t reserveNum
 	std::cout << "Capacity(after shrink): " << myVec.capacity() << std::endl;
 }
 
-#endif // !_VECTOR_TRAINING_
+#endif // !_VECTOR_DISPLAY_
 

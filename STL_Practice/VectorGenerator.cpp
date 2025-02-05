@@ -1,6 +1,6 @@
-#include "IntVectorTraining.h"
+#include "VectorGenerator.h"
 
-void IntVectorTraining::generate_vector(std::vector<int>& vec, std::size_t size)
+void VectorGenerator<int>::generate_vector(std::vector<int>& vec, std::size_t size)
 {
 	srand(time(NULL));
 
@@ -13,7 +13,7 @@ void IntVectorTraining::generate_vector(std::vector<int>& vec, std::size_t size)
 	}
 }
 
-void IntVectorTraining::redefine_vector(std::vector<int>& vec)
+void VectorGenerator<int>::redefine_vector(std::vector<int>& vec)
 {
 	std::vector<int>::iterator it = vec.begin();
 
@@ -23,3 +23,5 @@ void IntVectorTraining::redefine_vector(std::vector<int>& vec)
 		std::advance(it, 1);
 	}
 }
+
+template class VectorGenerator<int>;

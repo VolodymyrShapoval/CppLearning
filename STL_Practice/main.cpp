@@ -3,8 +3,8 @@
 #include <vector>
 #include <list>
 #include <stdexcept>
-#include "VectorTraining.h"
-#include "IntVectorTraining.h"
+#include "VectorDisplay.h"
+#include "VectorGenerator.h"
 #include "ListDisplay.h"
 
 void menu()
@@ -41,12 +41,12 @@ int main()
 			case 1:
 			{
 				std::vector<int> templateVec;
-				IntVectorTraining::generate_vector(templateVec, 10);
-				VectorTraining<int>::vector_work(templateVec, 15);
+				VectorGenerator<int>::generate_vector(templateVec, 10);
+				VectorDisplay<int>::vector_work(templateVec, 15);
 				templateVec.resize(15);
-				VectorTraining<int>::print(templateVec);
-				IntVectorTraining::redefine_vector(templateVec);
-				VectorTraining<int>::print(templateVec);
+				VectorDisplay<int>::print(templateVec);
+				VectorGenerator<int>::redefine_vector(templateVec);
+				VectorDisplay<int>::print(templateVec);
 				break;
 			}
 			case 2:
