@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "VectorTraining.h"
 #include "IntVectorTraining.h"
-#include "ListTraining.h"
+#include "ListDisplay.h"
 
 void menu()
 {
@@ -51,14 +51,12 @@ int main()
 			}
 			case 2:
 			{
-				std::list<int> templateList;
-				std::cout << "List: ";
-				templateList.push_back(1);
-				templateList.push_back(2);
-				templateList.push_back(3);
-				templateList.push_back(4);
-				templateList.push_back(5);
-				ListTraining<int>::print(templateList);
+				std::list<int> intList = ListDisplay<int>::generate(10);
+				std::list<double> doubleList = ListDisplay<double>::generate(10);
+				std::cout << "List<int>: ";
+				ListDisplay<int>::print(intList);
+				std::cout << "List<double>: ";
+				ListDisplay<double>::print(doubleList);
 				break;
 			}
 			case 0:

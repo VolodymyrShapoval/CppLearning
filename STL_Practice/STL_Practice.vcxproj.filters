@@ -24,7 +24,7 @@
     <ClCompile Include="IntVectorTraining.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ListTraining.cpp">
+    <ClCompile Include="ListDisplay.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="IntVectorTraining.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ListTraining.h">
+    <ClInclude Include="ListDisplay.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
