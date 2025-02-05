@@ -10,6 +10,7 @@
 void menu()
 {
 	std::cout << "1. Vector \n"
+			<< "2. List \n"
 			<< "0. Exit \n";
 }
 
