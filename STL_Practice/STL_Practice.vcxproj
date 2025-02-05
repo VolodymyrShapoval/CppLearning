@@ -127,12 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ForwardListDisplay.cpp" />
+    <ClCompile Include="ForwardListGenerator.cpp" />
     <ClCompile Include="VectorGenerator.cpp" />
     <ClCompile Include="ListDisplay.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VectorTraining.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ForwardListDisplay.h" />
+    <ClInclude Include="ForwardListGenerator.h" />
     <ClInclude Include="VectorGenerator.h" />
     <ClInclude Include="ListDisplay.h" />
     <ClInclude Include="VectorDisplay.h" />

@@ -2,15 +2,19 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <forward_list>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "VectorGenerator.h"
+#include "ForwardListDisplay.h"
+#include "ForwardListGenerator.h"
 #include "ListDisplay.h"
 
 void menu()
 {
 	std::cout << "1. Vector \n"
 			<< "2. List \n"
+			<< "3. Forward list \n"
 			<< "0. Exit \n";
 }
 
@@ -57,6 +61,13 @@ int main()
 				ListDisplay<int>::print(intList);
 				std::cout << "List<double>: ";
 				ListDisplay<double>::print(doubleList);
+				break;
+			}
+			case 3:
+			{
+				std::forward_list<int> int_flist = IntForwardListGenerator().generate(10);
+				std::cout << "Forward list: ";
+				ForwardListDisplay<int>::print(int_flist);
 				break;
 			}
 			case 0:
