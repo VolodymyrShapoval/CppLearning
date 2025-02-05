@@ -16,7 +16,6 @@ template <class T>
 class ListDisplay
 {
 public:
-	static std::list<T> generate(const size_t size);
 	static void print(const std::list<T>& myList);
 	static void reverse_print(const std::list<T>& myList);
 };
