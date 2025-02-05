@@ -32,9 +32,9 @@ void VectorDisplay<T>::print(const std::vector<T>& myVec)
 	}
 
 	std::cout << "myVec: ";
-	for (vector_const_iter<T> it = myVec.cbegin(); it != myVec.cend(); ++it)
+	for (const auto& elem : myVec)
 	{
-		std::cout << *it << " ";
+		std::cout << elem << " ";
 	}
 	std::cout << std::endl;
 };
@@ -46,7 +46,6 @@ void VectorDisplay<T>::reverse_print(const std::vector<T>& myVec)
 	{
 		std::cout << "Vector is empty" << std::endl;
 		return;
-
 	}
 
 	std::cout << "myVec(reversed): ";

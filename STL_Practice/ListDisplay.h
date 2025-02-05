@@ -24,9 +24,9 @@ public:
 template <class T>
 void ListDisplay<T>::print(const std::list<T>& myList)
 {
-	for (list_const_iterator<T> it = myList.cbegin(); it != myList.cend(); ++it)
+	for (const auto& elem : myList)
 	{
-		std::cout << *it << " ";
+		std::cout << elem << " ";
 	}
 	std::cout << std::endl;
 }

@@ -5,6 +5,7 @@ std::list<int> ListDisplay<int>::generate(const size_t size)
 	srand(time(NULL));
 	std::list<int> newList;
 	newList.resize(size);
+	newList.assign(size, 0);
 
 	for (list_iterator<int> it = newList.begin(); it != newList.end(); ++it)
 	{
