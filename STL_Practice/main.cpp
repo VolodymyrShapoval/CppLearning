@@ -4,6 +4,7 @@
 #include <list>
 #include <forward_list>
 #include <array>
+#include <deque>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -19,6 +20,7 @@ void menu()
 			<< "2. List \n"
 			<< "3. Forward list \n"
 			<< "4. Array \n"
+			<< "5. Deque \n"
 			<< "0. Exit \n";
 }
 
@@ -76,13 +78,30 @@ int main()
 			}
 			case 4:
 			{
-				std::array<int, 10> arr;
 				srand(time(NULL));
+				std::array<int, 10> arr;
 				for (auto& elem : arr)
 				{
 					elem = rand() % 100;
 				}
 				ArrayDisplay::print(arr);
+				break;
+			}
+			case 5:
+			{
+				srand(time(NULL));
+				std::deque<int> dq(10);
+
+				for (auto& elem : dq)
+				{
+					elem = rand() % 100;
+				}
+
+				for (const auto& elem : dq)
+				{
+					std::cout << elem << " ";
+				}
+				std::cout << std::endl;
 				break;
 			}
 			case 0:
