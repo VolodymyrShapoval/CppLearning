@@ -76,7 +76,12 @@ int main()
 			}
 			case 4:
 			{
-				std::array<int, 6> arr;
+				std::array<int, 10> arr;
+				srand(time(NULL));
+				for (auto& elem : arr)
+				{
+					elem = rand() % 100;
+				}
 				ArrayDisplay::print(arr);
 				break;
 			}
