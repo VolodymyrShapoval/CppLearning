@@ -8,6 +8,7 @@
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
 #include "ForwardListDisplay.h"
+#include "ArrayDisplay.h"
 #include "VectorGenerator.h"
 #include "ListGenerator.h"
 #include "ForwardListGenerator.h"
@@ -17,6 +18,7 @@ void menu()
 	std::cout << "1. Vector \n"
 			<< "2. List \n"
 			<< "3. Forward list \n"
+			<< "4. Array \n"
 			<< "0. Exit \n";
 }
 
@@ -74,7 +76,8 @@ int main()
 			}
 			case 4:
 			{
-				
+				std::array<int, 6> arr;
+				ArrayDisplay::print(arr);
 				break;
 			}
 			case 0:
