@@ -6,6 +6,7 @@
 #include <array>
 #include <deque>
 #include <set>
+#include <map>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -24,6 +25,8 @@ void menu()
 			<< "5. Deque \n"
 			<< "6. Set \n"
 			<< "7. Multiset \n"
+			<< "8. Map \n"
+			<< "9. Multimap \n"
 			<< "0. Exit \n";
 }
 
@@ -137,6 +140,43 @@ int main()
 					std::cout << elem << " -> ";
 				}
 				std::cout << "null" << std::endl;
+				break;
+			}
+			case 8:
+			{
+				std::map<int, std::string> employees;
+				employees.emplace(41, "John Doe - CEO");
+				employees.emplace(38, "Anna Bee - Finance Director");
+				employees.emplace(36, "Max Ford - Tech Lead");
+				employees.emplace(25, "Frank Stark - Senior Developer");
+				employees.emplace(23, "Kate Johnson - Middle Developer");
+				employees.emplace(21, "Jane Moon - Project Manager");
+				employees.emplace(20, "Fill Peterson - Junior Developer");
+
+				std::multimap<int, std::string>::const_reverse_iterator it = employees.crbegin();
+				for (it; it != employees.crend(); ++it)
+				{
+					std::cout << (*it).second << " - " << (*it).first << " y.o." << std::endl;
+				}
+				break;
+			}
+			case 9:
+			{
+				std::multimap<int, std::string> employees;
+				employees.emplace(41, "John Doe - CEO");
+				employees.emplace(38, "Anna Bee - Finance Director");
+				employees.emplace(36, "Max Ford - Tech Lead");
+				employees.emplace(36, "Lia Chin - Business analyst");
+				employees.emplace(25, "Frank Stark - Senior Developer");
+				employees.emplace(23, "Kate Johnson - Middle Developer");
+				employees.emplace(21, "Jane Moon - Project Manager");
+				employees.emplace(20, "Fill Peterson - Junior Developer");
+
+				std::multimap<int, std::string>::const_reverse_iterator it = employees.crbegin();
+				for (it; it != employees.crend(); ++it)
+				{
+					std::cout << (*it).second << " - "  << (*it).first << " y.o." << std::endl;
+				}
 				break;
 			}
 			case 0:
