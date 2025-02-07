@@ -7,6 +7,7 @@
 #include <deque>
 #include <set>
 #include <map>
+#include <stack>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -27,6 +28,7 @@ void menu()
 			<< "7. Multiset \n"
 			<< "8. Map \n"
 			<< "9. Multimap \n"
+			<< "10. Stack \n"
 			<< "0. Exit \n";
 }
 
@@ -176,6 +178,22 @@ int main()
 				for (it; it != employees.crend(); ++it)
 				{
 					std::cout << (*it).second << " - "  << (*it).first << " y.o." << std::endl;
+				}
+				break;
+			}
+			case 10:
+			{
+				srand(time(NULL));
+				std::size_t size = 10;
+				std::stack<int> st;
+				for (size_t i = 0; i < size; ++i)
+				{
+					st.push(i);
+				}
+				for (size_t i = 0; !st.empty(); i++)
+				{
+					std::cout << "->Pop #" << i+1 << ": " << st.top() << std::endl;
+					st.pop();
 				}
 				break;
 			}
