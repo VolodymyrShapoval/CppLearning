@@ -5,6 +5,7 @@
 #include <forward_list>
 #include <array>
 #include <deque>
+#include <set>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -21,6 +22,8 @@ void menu()
 			<< "3. Forward list \n"
 			<< "4. Array \n"
 			<< "5. Deque \n"
+			<< "6. Set \n"
+			<< "7. Multiset \n"
 			<< "0. Exit \n";
 }
 
@@ -104,7 +107,24 @@ int main()
 				std::cout << std::endl;
 				break;
 			}
+			case 6:
+			{
+				srand(time(NULL));
+				std::size_t size = 10;
+				std::set<int> tree;
+				for (size_t i = 0; i < size; ++i)
+				{
+					tree.insert(rand() % 100);
+				}
+				for (const auto& elem : tree)
+				{
+					std::cout << elem << " -> ";
+				}
+				std::cout << "null" << std::endl;
+				break;
+			}
 			case 0:
+				std::cout << "Thank you for using our program!" << std::endl;
 				return 0;
 			default:
 				std::cout << "There is no such option!" << std::endl;
@@ -117,4 +137,5 @@ int main()
 	{
 		std::cerr << "Exception: " << ex.what() << std::endl;
 	}
+	return 0;
 }
