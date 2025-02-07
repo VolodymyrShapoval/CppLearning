@@ -123,6 +123,22 @@ int main()
 				std::cout << "null" << std::endl;
 				break;
 			}
+			case 7:
+			{
+				srand(time(NULL));
+				std::size_t size = 10;
+				std::multiset<int> mtree;
+				for (size_t i = 0; i < size; ++i)
+				{
+					mtree.insert(rand() % 25);
+				}
+				for (const auto& elem : mtree)
+				{
+					std::cout << elem << " -> ";
+				}
+				std::cout << "null" << std::endl;
+				break;
+			}
 			case 0:
 				std::cout << "Thank you for using our program!" << std::endl;
 				return 0;
