@@ -23,7 +23,6 @@ class Bank
 public:
 	static void get_cash(const std::string& firstName, const std::string& lastName, const std::uint32_t amount)
 	{
-		//std::cout << std::string(20, '=') << " GETTING CASH OPERATION " << std::string(20, '=') << std::endl;
 		check_data();
 		std::cout << std::setw(4) << std::setfill('0') << m_sYear << "/"
 			<< std::setw(2) << std::setfill('0') << m_sMonth << "/"
@@ -32,7 +31,22 @@ public:
 			<< std::setw(15) << std::left << firstName
 			<< std::setw(10) << std::right << amount << " UAN"
 			<< std::setw(15) << std::right << "get_cash"
-			<< std::endl; ++m_sOperationsCount;
+			<< std::endl; 
+		++m_sOperationsCount;
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	}
+	static void deposit_cash(const std::string& firstName, const std::string& lastName, const std::uint32_t amount)
+	{
+		check_data();
+		std::cout << std::setw(4) << std::setfill('0') << m_sYear << "/"
+			<< std::setw(2) << std::setfill('0') << m_sMonth << "/"
+			<< std::setw(2) << std::setfill('0') << m_sDay << ": \t"
+			<< std::setw(15) << std::setfill(' ') << std::left << lastName
+			<< std::setw(15) << std::left << firstName
+			<< std::setw(10) << std::right << amount << " UAN"
+			<< std::setw(15) << std::right << "deposit_cash"
+			<< std::endl; 
+		++m_sOperationsCount;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
