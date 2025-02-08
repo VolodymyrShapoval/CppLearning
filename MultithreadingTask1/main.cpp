@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <thread>
 #include <chrono>
+#include <vector>
+#include <iomanip>
 
 void do_work()
 {
@@ -21,9 +23,17 @@ class Bank
 public:
 	static void get_cash(const std::string& firstName, const std::string& lastName, const std::uint32_t amount)
 	{
+		//std::cout << std::string(20, '=') << " GETTING CASH OPERATION " << std::string(20, '=') << std::endl;
 		check_data();
-		std::cout << m_sYear << "/" << m_sDay << "/" << m_sMonth << ": " << lastName << " " << firstName << " -> " << amount << "UAN" << std::endl;
-		++m_sOperationsCount;
+		std::cout << std::setw(4) << std::setfill('0') << m_sYear << "/"
+			<< std::setw(2) << std::setfill('0') << m_sMonth << "/"
+			<< std::setw(2) << std::setfill('0') << m_sDay << ": \t"
+			<< std::setw(15) << std::setfill(' ') << std::left << lastName
+			<< std::setw(15) << std::left << firstName
+			<< std::setw(10) << std::right << amount << " UAN"
+			<< std::setw(15) << std::right << "get_cash"
+			<< std::endl; ++m_sOperationsCount;
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
 private:
@@ -34,6 +44,7 @@ private:
 
 		if (m_sOperationsCount > 1000)
 		{
+			m_sOperationsCount = 0;
 			if (m_sDay == daysInMonth[m_sMonth - 1])
 			{
 				m_sDay = 1;
@@ -58,23 +69,23 @@ private:
 	static std::uint16_t m_sDay;
 };
 
-static std::uint16_t m_sOperationsCount = 0;
+std::uint16_t Bank::m_sOperationsCount = 0;
 std::uint16_t Bank::m_sYear = 2025;
 std::uint16_t Bank::m_sMonth = 1;
 std::uint16_t Bank::m_sDay = 1;
 
 int main()
 {
-	const std::string firstNames[]{ "Viktor, Max, Oleh, Dmutro, Anatoliy, Volodymyr" };
-	const std::string lastNames[]{ "Petrenko", "Dmutryk", "Omelnuk", "Cherednichenko", "Honchar"};
+	const std::vector<std::string> firstNames{ "Viktor", "Max", "Oleh", "Dmutro", "Anatoliy", "Volodymyr" };
+	const std::vector<std::string> lastNames { "Petrenko", "Dmutryk", "Omelnuk", "Cherednichenko", "Honchar"};
 	try
 	{
 		srand(time(NULL));
-		for (size_t i = 0; i < 1000; ++i)
+		for (size_t i = 0; i < 2500; ++i)
 		{
-			std::int16_t fNameInd = rand() % firstNames->size();
-			std::int16_t lNameInd = rand() % lastNames->size();
-			do_work(firstNames[fNameInd], lastNames[lNameInd], rand() % 100000 + 1000);
+			std::int16_t fNameInd = rand() % firstNames.size();
+			std::int16_t lNameInd = rand() % lastNames.size();
+			Bank::get_cash(firstNames[fNameInd], lastNames[lNameInd], rand() % 100000 + 1000);
 		}
 	}
 	catch (const std::exception& ex)
