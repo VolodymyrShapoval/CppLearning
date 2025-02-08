@@ -90,8 +90,16 @@ std::uint16_t Bank::m_sDay = 1;
 
 int main()
 {
-	const std::vector<std::string> firstNames{ "Viktor", "Max", "Oleh", "Dmutro", "Anatoliy", "Volodymyr" };
-	const std::vector<std::string> lastNames { "Petrenko", "Dmutryk", "Omelnuk", "Cherednichenko", "Honchar"};
+	const std::vector<std::string> firstNames {
+	"Viktor", "Max", "Oleh", "Dmutro", "Anatoliy", "Volodymyr", "Andriy", "Serhiy", "Oleksandr", "Mykola",
+	"Bohdan", "Yaroslav", "Roman", "Ihor", "Artem", "Pavlo", "Denys", "Taras", "Stepan", "Hryhoriy",
+	"Yevhen", "Valentyn", "Mykhailo", "Stanislav", "Ruslan"	};
+
+	const std::vector<std::string> lastNames {
+		"Petrenko", "Dmutryk", "Omelnuk", "Cherednichenko", "Honchar", "Shevchenko", "Kovalenko", "Moroz", "Savchenko", "Tkachenko",
+		"Kryvonos", "Khomenko", "Perebyinis", "Zakharchenko", "Khmelnitsky", "Shapoval", "Bondarenko", "Mazurenko", "Vasylenko", "Melnyk",
+		"Lysenko", "Rudenko", "Havryliuk", "Zelenko", "Yakovenko" }; 
+
 	try
 	{
 		srand(time(NULL));
