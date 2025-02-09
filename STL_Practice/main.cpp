@@ -202,7 +202,6 @@ int main()
 			}
 			case 11:
 			{
-				srand(time(NULL));
 				std::size_t size = 10;
 				std::queue<int> q;
 				for (size_t i = 0; i < size; ++i)
@@ -220,7 +219,21 @@ int main()
 			}
 			case 12:
 			{
-
+				srand(time(NULL));
+				std::size_t size = 10;
+				std::priority_queue<int> q;
+				
+				for (size_t i = 0; i < size; ++i)
+				{
+					q.emplace(rand() % 100);
+				}
+				std::cout << "Exit <- ";
+				while (!q.empty())
+				{
+					std::cout << q.top() << " <- ";
+					q.pop();
+				}
+				std::cout << "new clients" << std::endl;
 				break;
 			}
 			case 0:
