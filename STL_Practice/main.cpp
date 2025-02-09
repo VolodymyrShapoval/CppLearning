@@ -8,6 +8,7 @@
 #include <set>
 #include <map>
 #include <stack>
+#include <queue>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -29,6 +30,8 @@ void menu()
 			<< "8. Map \n"
 			<< "9. Multimap \n"
 			<< "10. Stack \n"
+			<< "11. Queue \n"
+			<< "12. Priority queue \n"
 			<< "0. Exit \n";
 }
 
@@ -195,6 +198,29 @@ int main()
 					std::cout << "->Pop #" << i+1 << ": " << st.top() << std::endl;
 					st.pop();
 				}
+				break;
+			}
+			case 11:
+			{
+				srand(time(NULL));
+				std::size_t size = 10;
+				std::queue<int> q;
+				for (size_t i = 0; i < size; ++i)
+				{
+					q.emplace(i+1);
+				}
+				std::cout << "Exit <- ";
+				while(!q.empty())
+				{
+					std::cout << q.front() << " <- ";
+					q.pop();
+				}
+				std::cout << "new clients" << std::endl;
+				break;
+			}
+			case 12:
+			{
+
 				break;
 			}
 			case 0:
