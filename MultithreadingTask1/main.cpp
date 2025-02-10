@@ -107,7 +107,15 @@ int main()
 		{
 			std::int16_t fNameInd = rand() % firstNames.size();
 			std::int16_t lNameInd = rand() % lastNames.size();
-			Bank::get_cash(firstNames[fNameInd], lastNames[lNameInd], rand() % 100000 + 1000);
+			std::thread th1(Bank::get_cash, firstNames[rand() % firstNames.size()], 
+											lastNames[rand() % lastNames.size()], 
+											rand() % 100000 + 1000);
+			std::thread th2(Bank::get_cash, firstNames[rand() % firstNames.size()],
+				lastNames[rand() % lastNames.size()],
+				rand() % 100000 + 1000);
+
+			th1.join();
+			th2.join();
 		}
 	}
 	catch (const std::exception& ex)
