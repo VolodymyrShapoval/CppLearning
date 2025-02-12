@@ -38,7 +38,9 @@ int main()
 		srand(time(NULL));
 		for (size_t i = 0; i < 2500; ++i)
 		{
+#ifdef _DEBUG
 			OperationTimer timer;
+#endif // DEBUG
 			std::thread th1(Bank::make_request, firstNames[rand() % firstNames.size()], 
 												lastNames[rand() % lastNames.size()], 
 												Bank::get_cash);
