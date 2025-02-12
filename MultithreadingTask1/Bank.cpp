@@ -20,7 +20,7 @@ void Bank::make_request(const std::string& firstName, const std::string& lastNam
 		<< std::setw(15) << std::setfill(' ') << std::left << lastName
 		<< std::setw(15) << std::left << firstName;
 	
-	auto get_rand_amount = [&now_c]()
+	auto get_rand_amount = [&now_c]() -> int
 	{
 		srand(time(&now_c));
 		return rand() % 100000 + 1000;

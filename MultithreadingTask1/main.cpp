@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <functional>
 #include "Bank.h"
+#include "OperationTimer.h"
 
 void do_work()
 {
@@ -37,6 +38,7 @@ int main()
 		srand(time(NULL));
 		for (size_t i = 0; i < 2500; ++i)
 		{
+			OperationTimer timer;
 			std::thread th1(Bank::make_request, firstNames[rand() % firstNames.size()], 
 												lastNames[rand() % lastNames.size()], 
 												Bank::get_cash);
