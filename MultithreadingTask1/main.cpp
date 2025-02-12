@@ -6,6 +6,7 @@
 #include <vector>
 #include <iomanip>
 #include <functional>
+#include <algorithm>
 #include "Bank.h"
 #include "OperationTimer.h"
 
@@ -37,6 +38,11 @@ public:
 		return clients;
 	}
 };
+
+bool isClientOnline(const Client& client)
+{
+	return client.status();
+}
 
 int main()
 {

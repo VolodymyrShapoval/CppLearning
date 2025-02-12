@@ -16,12 +16,15 @@ class Client
 {
 public:
 	Client(const std::string& firstName, const std::string& lastName);
+	Client(const std::string& firstName, const std::string& lastName, bool status);
 	const std::string firstName() const;
 	const std::string lastName() const;
+	const bool status() const;
 
 private:
-	const std::string m_firstName;
-	const std::string m_lastName;
+	const std::string	m_firstName;
+	const std::string	m_lastName;
+	bool				m_status = false;
 };
 
 #endif // !_CLIENT_
