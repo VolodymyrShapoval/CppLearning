@@ -2,8 +2,6 @@
 
 void Bank::make_request(const std::string& firstName, const std::string& lastName, std::function<void(int amount)> operation)
 {
-	srand(time(NULL));
-
 	auto now = std::chrono::system_clock::now();
 	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
 	std::tm localTime{};
@@ -21,7 +19,13 @@ void Bank::make_request(const std::string& firstName, const std::string& lastNam
 		<< std::setw(2) << std::setfill('0') << localTime.tm_sec << ": \t"
 		<< std::setw(15) << std::setfill(' ') << std::left << lastName
 		<< std::setw(15) << std::left << firstName;
-	operation(rand() % 100000 + 1000);
+	
+	auto get_rand_amount = [&now_c]()
+	{
+		srand(time(&now_c));
+		return rand() % 100000 + 1000;
+	};
+	operation(get_rand_amount());
 }
 
 void Bank::get_cash(const std::uint32_t amount)
