@@ -1,0 +1,41 @@
+#include "Bank.h"
+
+void Bank::make_request(const std::string& firstName, const std::string& lastName, std::function<void(int amount)> operation)
+{
+	srand(time(NULL));
+
+	auto now = std::chrono::system_clock::now();
+	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+	std::tm localTime{};
+#ifdef _WIN32
+	localtime_s(&localTime, &now_c);  // Безпечна версія для Windows
+#else
+	localtime_r(&now_c, &localTime);  // Безпечна версія для Linux/macOS
+#endif
+
+	std::cout << std::setw(4) << std::setfill('0') << localTime.tm_year + 1900 << "/"
+		<< std::setw(2) << std::setfill('0') << localTime.tm_mday << "/"
+		<< std::setw(2) << std::setfill('0') << localTime.tm_mon + 1 << " "
+		<< std::setw(2) << std::setfill('0') << localTime.tm_hour << ":"
+		<< std::setw(2) << std::setfill('0') << localTime.tm_min << ":"
+		<< std::setw(2) << std::setfill('0') << localTime.tm_sec << ": \t"
+		<< std::setw(15) << std::setfill(' ') << std::left << lastName
+		<< std::setw(15) << std::left << firstName;
+	operation(rand() % 100000 + 1000);
+}
+
+void Bank::get_cash(const std::uint32_t amount)
+{
+	std::cout << std::setw(10) << std::right << amount << " UAN"
+		<< std::setw(15) << std::right << "get_cash"
+		<< std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+}
+
+void Bank::deposit_cash(const std::uint32_t amount)
+{
+	std::cout << std::setw(10) << std::right << amount << " UAN"
+		<< std::setw(15) << std::right << "deposit_cash"
+		<< std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+}
