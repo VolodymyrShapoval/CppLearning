@@ -5,6 +5,7 @@
 #include <chrono>
 #include <vector>
 #include <iomanip>
+#include <functional>
 
 void do_work()
 {
@@ -21,72 +22,43 @@ void do_work()
 class Bank
 {
 public:
-	static void get_cash(const std::string& firstName, const std::string& lastName, const std::uint32_t amount)
+	static void make_request(const std::string& firstName, const std::string& lastName, std::function<void(int amount)> operation)
 	{
-		check_data();
-		std::cout << std::setw(4) << std::setfill('0') << m_sYear << "/"
-			<< std::setw(2) << std::setfill('0') << m_sMonth << "/"
-			<< std::setw(2) << std::setfill('0') << m_sDay << ": \t"
+		srand(time(NULL));
+		auto now = std::chrono::system_clock::now();
+		std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+		std::tm localTime{};
+	#ifdef _WIN32
+			localtime_s(&localTime, &now_c);  // Безпечна версія для Windows
+	#else
+			localtime_r(&now_c, &localTime);  // Безпечна версія для Linux/macOS
+	#endif
+		std::cout << std::setw(4) << std::setfill('0') << localTime.tm_year+1900 << "/"
+			<< std::setw(2) << std::setfill('0') << localTime.tm_mday << "/"
+			<< std::setw(2) << std::setfill('0') << localTime.tm_mon + 1 << " "
+			<< std::setw(2) << std::setfill('0') << localTime.tm_hour << ":" 
+			<< std::setw(2) << std::setfill('0') << localTime.tm_min << ":" 
+			<< std::setw(2) << std::setfill('0') << localTime.tm_sec << ": \t"
 			<< std::setw(15) << std::setfill(' ') << std::left << lastName
-			<< std::setw(15) << std::left << firstName
-			<< std::setw(10) << std::right << amount << " UAN"
+			<< std::setw(15) << std::left << firstName;
+		operation(rand() % 100000 + 1000);
+	}
+
+	static void get_cash(const std::uint32_t amount)
+	{
+		std::cout << std::setw(10) << std::right << amount << " UAN"
 			<< std::setw(15) << std::right << "get_cash"
-			<< std::endl; 
-		++m_sOperationsCount;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			<< std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
-	static void deposit_cash(const std::string& firstName, const std::string& lastName, const std::uint32_t amount)
+	static void deposit_cash(const std::uint32_t amount)
 	{
-		check_data();
-		std::cout << std::setw(4) << std::setfill('0') << m_sYear << "/"
-			<< std::setw(2) << std::setfill('0') << m_sMonth << "/"
-			<< std::setw(2) << std::setfill('0') << m_sDay << ": \t"
-			<< std::setw(15) << std::setfill(' ') << std::left << lastName
-			<< std::setw(15) << std::left << firstName
-			<< std::setw(10) << std::right << amount << " UAN"
+		std::cout << std::setw(10) << std::right << amount << " UAN"
 			<< std::setw(15) << std::right << "deposit_cash"
-			<< std::endl; 
-		++m_sOperationsCount;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			<< std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
-
-private:
-	static void check_data()
-	{
-		const std::uint16_t februaryDays = (m_sYear % 4 && m_sYear % 100 != 0) || (m_sYear % 400 == 0) ? 29 : 28;
-		static const int daysInMonth[] = { 31, februaryDays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-		if (m_sOperationsCount > 1000)
-		{
-			m_sOperationsCount = 0;
-			if (m_sDay == daysInMonth[m_sMonth - 1])
-			{
-				m_sDay = 1;
-				++m_sMonth;
-
-				if (m_sMonth > 12)
-				{
-					m_sMonth = 1;
-					++m_sYear;
-				}
-			}
-			else
-			{
-				++m_sDay;
-			}
-		}
-	}
-
-	static std::uint16_t m_sOperationsCount;
-	static std::uint16_t m_sYear;
-	static std::uint16_t m_sMonth;
-	static std::uint16_t m_sDay;
 };
-
-std::uint16_t Bank::m_sOperationsCount = 0;
-std::uint16_t Bank::m_sYear = 2025;
-std::uint16_t Bank::m_sMonth = 1;
-std::uint16_t Bank::m_sDay = 1;
 
 int main()
 {
@@ -105,14 +77,14 @@ int main()
 		srand(time(NULL));
 		for (size_t i = 0; i < 2500; ++i)
 		{
-			std::thread th1(Bank::get_cash, firstNames[rand() % firstNames.size()], 
-											lastNames[rand() % lastNames.size()], 
-											rand() % 100000 + 1000);
-			std::thread th2(Bank::get_cash, firstNames[rand() % firstNames.size()],
-											lastNames[rand() % lastNames.size()],
-											rand() % 100000 + 1000);
+			std::thread th1(Bank::make_request, firstNames[rand() % firstNames.size()], 
+												lastNames[rand() % lastNames.size()], 
+												Bank::get_cash);
+			/*std::thread th2(Bank::make_request, firstNames[rand() % firstNames.size()],
+												lastNames[rand() % lastNames.size()],
+												Bank::deposit_cash);*/
 			th1.join();
-			th2.join();
+			//th2.join();
 		}
 	}
 	catch (const std::exception& ex)
