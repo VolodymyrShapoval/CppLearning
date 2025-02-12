@@ -1,6 +1,7 @@
 #include "Bank.h"
 
-void Bank::make_request(const std::string& firstName, const std::string& lastName, std::function<void(int amount)> operation)
+
+void Bank::make_request(const Client& client, std::function<void(std::uint32_t amount)> operation)
 {
 	auto now = std::chrono::system_clock::now();
 	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
@@ -17,8 +18,8 @@ void Bank::make_request(const std::string& firstName, const std::string& lastNam
 		<< std::setw(2) << std::setfill('0') << localTime.tm_hour << ":"
 		<< std::setw(2) << std::setfill('0') << localTime.tm_min << ":"
 		<< std::setw(2) << std::setfill('0') << localTime.tm_sec << ": \t"
-		<< std::setw(15) << std::setfill(' ') << std::left << lastName
-		<< std::setw(15) << std::left << firstName;
+		<< std::setw(15) << std::setfill(' ') << std::left << client.lastName()
+		<< std::setw(15) << std::left << client.firstName();
 	
 	auto get_rand_amount = [&now_c]() -> int
 	{

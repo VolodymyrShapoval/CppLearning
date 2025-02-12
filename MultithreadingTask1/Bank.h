@@ -7,11 +7,17 @@
 #include <chrono>
 #include <iomanip>
 #include <functional>
+#include <vector>
+#include <tuple>
+#include "Stock.h"
+#include "Client.h"
+
+class Client;
 
 class Bank
 {
 public:
-	static void make_request(const std::string& firstName, const std::string& lastName, std::function<void(int amount)> operation);
+	static void make_request(const Client& client, std::function<void(std::uint32_t amount)> operation);
 	static void get_cash(const std::uint32_t amount);
 	static void deposit_cash(const std::uint32_t amount);
 };

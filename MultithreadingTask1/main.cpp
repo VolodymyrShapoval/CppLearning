@@ -21,6 +21,23 @@ void do_work()
 	std::cout << "END THREAD " << thisId << std::endl;
 }
 
+class ClientGenerator
+{
+public:
+	std::vector<Client> operator ()(const std::vector<std::string>& firstNames, const std::vector<std::string>& lastNames) noexcept
+	{
+		std::vector<Client> clients;
+		for (const auto& firstName : firstNames) 
+		{
+			for (const auto& lastName : lastNames) 
+			{
+				clients.emplace_back(firstName, lastName);
+			}
+		}
+		return clients;
+	}
+};
+
 int main()
 {
 	const std::vector<std::string> firstNames {
@@ -31,7 +48,17 @@ int main()
 	const std::vector<std::string> lastNames {
 		"Petrenko", "Dmutryk", "Omelnuk", "Cherednichenko", "Honchar", "Shevchenko", "Kovalenko", "Moroz", "Savchenko", "Tkachenko",
 		"Kryvonos", "Khomenko", "Perebyinis", "Zakharchenko", "Khmelnitsky", "Shapoval", "Bondarenko", "Mazurenko", "Vasylenko", "Melnyk",
-		"Lysenko", "Rudenko", "Havryliuk", "Zelenko", "Yakovenko" }; 
+		"Lysenko", "Rudenko", "Havryliuk", "Zelenko", "Yakovenko" };
+
+	ClientGenerator clientGen;
+	std::vector<Client> clients = clientGen(firstNames, lastNames);
+
+	const std::vector<Stock> stocks
+	{
+		Stock("Coca-Cola", 15),
+		Stock("Microsoft", 235),
+		Stock("Apple", 150)
+	};
 
 	try
 	{
@@ -40,13 +67,9 @@ int main()
 		{
 #ifdef _DEBUG
 			OperationTimer timer;
-#endif // DEBUG
-			std::thread th1(Bank::make_request, firstNames[rand() % firstNames.size()], 
-												lastNames[rand() % lastNames.size()], 
-												Bank::get_cash);
-			/*std::thread th2(Bank::make_request, firstNames[rand() % firstNames.size()],
-												lastNames[rand() % lastNames.size()],
-												Bank::deposit_cash);*/
+#endif
+			std::thread th1(Bank::make_request, clients[rand() % clients.size()], Bank::get_cash);
+			/*std::thread th2(Bank::make_request, clients[rand() % clients.size()], Bank::get_cash);*/
 			th1.join();
 			//th2.join();
 		}
