@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "Bank.h"
 #include "OperationTimer.h"
+#include "ClientGenerator.h"
 
 void do_work()
 {
@@ -21,23 +22,6 @@ void do_work()
 	}
 	std::cout << "END THREAD " << thisId << std::endl;
 }
-
-class ClientGenerator
-{
-public:
-	std::vector<Client> operator ()(const std::vector<std::string>& firstNames, const std::vector<std::string>& lastNames) noexcept
-	{
-		std::vector<Client> clients;
-		for (const auto& firstName : firstNames) 
-		{
-			for (const auto& lastName : lastNames) 
-			{
-				clients.emplace_back(firstName, lastName);
-			}
-		}
-		return clients;
-	}
-};
 
 bool isClientOnline(const Client& client)
 {
