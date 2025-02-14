@@ -9,6 +9,7 @@
 #include <map>
 #include <stack>
 #include <queue>
+#include <algorithm>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -32,6 +33,7 @@ void menu()
 			<< "10. Stack \n"
 			<< "11. Queue \n"
 			<< "12. Priority queue \n"
+			<< "13. Sorting \n"
 			<< "0. Exit \n";
 }
 
@@ -235,6 +237,10 @@ int main()
 				}
 				std::cout << "new clients" << std::endl;
 				break;
+			}
+			case 13:
+			{
+				std::cout << "=========== Sorting ===========" << std::endl;
 			}
 			case 0:
 				std::cout << "Thank you for using our program!" << std::endl;
