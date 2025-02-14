@@ -241,6 +241,15 @@ int main()
 			case 13:
 			{
 				std::cout << "=========== Sorting ===========" << std::endl;
+				std::vector<int> vec;
+				VectorGenerator<int>::generate_vector(vec, 10);
+				VectorDisplay<int>::print(vec);
+				std::sort(vec.begin(), vec.end(), [](int a, int b)
+				{
+					return a < b;
+				});
+				VectorDisplay<int>::print(vec);
+				break;
 			}
 			case 0:
 				std::cout << "Thank you for using our program!" << std::endl;
