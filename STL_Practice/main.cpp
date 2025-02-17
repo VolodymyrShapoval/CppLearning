@@ -19,6 +19,25 @@
 #include "ListGenerator.h"
 #include "ForwardListGenerator.h"
 
+class Person
+{
+public:
+	std::string name;
+	std::int16_t age;
+
+	Person(const std::string& name, const std::int16_t age)
+	{
+		this->name = name;
+		this->age = age;
+	}
+
+	std::string& operator <<(const Person& person)
+	{
+		std::cout << "Name: " << person.name << "\n"
+			<< "Age: " << person.age << std::endl;
+	}
+};
+
 void menu()
 {
 	std::cout << "1. Vector \n"
@@ -35,6 +54,7 @@ void menu()
 			<< "12. Priority queue \n"
 			<< "13. Sorting \n"
 			<< "14. Searching \n"
+			<< "15. Copying \n"
 			<< "0. Exit \n";
 }
 
@@ -291,6 +311,35 @@ int main()
 					std::cout << "Result(find_if_not): " << *findIfNotRes << std::endl;
 				}
 				
+				break;
+			}
+			case 15:
+			{
+				std::vector<Person>	people
+				{
+					Person("Kate", 19),
+					Person("John", 21),
+					Person("Fred", 20),
+					Person("Mark", 41),
+					Person("Lusy", 27),
+					Person("Sara", 17)
+				};
+				std::vector<Person> result;
+
+				std::copy_if(people.begin(), people.end(), std::back_inserter(result), [](const Person& person)
+				{
+					return person.age >= 20;
+				});
+
+				std::sort(result.begin(), result.end(), [](const Person& person1, const Person& person2)
+				{
+					return person1.age < person2.age;
+				});
+
+				for (const auto& person : result)
+				{
+					std::cout << person.name << " - " << person.age << std::endl;
+				}
 				break;
 			}
 			case 0:
