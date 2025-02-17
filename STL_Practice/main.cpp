@@ -34,6 +34,7 @@ void menu()
 			<< "11. Queue \n"
 			<< "12. Priority queue \n"
 			<< "13. Sorting \n"
+			<< "14. Searching \n"
 			<< "0. Exit \n";
 }
 
@@ -249,6 +250,47 @@ int main()
 					return a < b;
 				});
 				VectorDisplay<int>::print(vec);
+				break;
+			}
+			case 14:
+			{
+				std::vector<int> vec{ 6, 254, 53, 233, 66, 23, 677, 134, 11 };
+				auto findRes = std::find(vec.begin(), vec.end(), 11);
+				if (findRes == vec.end())
+				{
+					std::cout << "There is no such element!" << std::endl;
+				}
+				else
+				{
+					std::cout << "Result(find): " << *findRes << std::endl;
+				}
+
+				auto findIfRes = std::find_if(vec.begin(), vec.end(), [](int a)
+				{
+					return a > 100;
+				});
+				if (findIfRes == vec.end())
+				{
+					std::cout << "There is no such element!" << std::endl;
+				}
+				else
+				{
+					std::cout << "Result(find_if): " << *findIfRes << std::endl;
+				}
+
+				auto findIfNotRes = std::find_if_not(vec.begin(), vec.end(), [](int a)
+					{
+						return a > 100;
+					});
+				if (findIfNotRes == vec.end())
+				{
+					std::cout << "There is no such element!" << std::endl;
+				}
+				else
+				{
+					std::cout << "Result(find_if_not): " << *findIfNotRes << std::endl;
+				}
+				
 				break;
 			}
 			case 0:
