@@ -377,7 +377,30 @@ int main()
 			}
 			case 17:
 			{
-				
+				std::vector<Person>	people
+				{
+					Person("Kate", 19),
+					Person("John", 21),
+					Person("Fred", 20),
+					Person("Mark", 41),
+					Person("Lusy", 27),
+					Person("Sara", 17)
+				};
+
+				std::cout << "People: " << std::endl;
+				for (const auto& person : people)
+				{
+					std::cout << person.name << " - " << person.age << std::endl;
+				}
+				std::cout << std::endl;
+
+				auto result = std::minmax_element(people.begin(), people.end(), [](const Person& person1, const Person& person2)
+				{
+					return person1.age < person2.age;
+				});
+
+				std::cout << "The oldest: " << (*result.second).name << " - " << (*result.second).age << std::endl;
+				std::cout << "The youngest: " << (*result.first).name << " - " << (*result.first).age << std::endl;
 				break;
 			}
 			case 0:
