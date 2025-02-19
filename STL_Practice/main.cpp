@@ -55,6 +55,8 @@ void menu()
 			<< "13. Sorting \n"
 			<< "14. Searching \n"
 			<< "15. Copying \n"
+			<< "16. Removing \n"
+			<< "17. Searching Min&Max \n"
 			<< "0. Exit \n";
 }
 
@@ -340,6 +342,42 @@ int main()
 				{
 					std::cout << person.name << " - " << person.age << std::endl;
 				}
+				break;
+			}
+			case 16:
+			{
+				std::vector<Person>	people
+				{
+					Person("Kate", 19),
+					Person("John", 21),
+					Person("Fred", 20),
+					Person("Mark", 41),
+					Person("Lusy", 27),
+					Person("Sara", 17)
+				};
+
+				std::cout << "People(before removing): " << std::endl;
+				for (const auto& person : people)
+				{
+					std::cout << person.name << " - " << person.age << std::endl;
+				}
+				std::cout << std::endl;
+
+				people.erase(std::remove_if(people.begin(), people.end(), [](const Person& person)
+				{
+					return person.age < 20;
+				}), people.end());
+
+				std::cout << "People(after removing): " << std::endl;
+				for (const auto& person : people)
+				{
+					std::cout << person.name << " - " << person.age << std::endl;
+				}
+				break;
+			}
+			case 17:
+			{
+				
 				break;
 			}
 			case 0:
