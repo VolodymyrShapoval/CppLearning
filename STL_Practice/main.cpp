@@ -10,6 +10,7 @@
 #include <stack>
 #include <queue>
 #include <algorithm>
+#include <numeric>
 #include <stdexcept>
 #include "VectorDisplay.h"
 #include "ListDisplay.h"
@@ -57,6 +58,7 @@ void menu()
 			<< "15. Copying \n"
 			<< "16. Removing \n"
 			<< "17. Searching Min&Max \n"
+			<< "18. Accumulate \n"
 			<< "0. Exit \n";
 }
 
@@ -401,6 +403,23 @@ int main()
 
 				std::cout << "The oldest: " << (*result.second).name << " - " << (*result.second).age << std::endl;
 				std::cout << "The youngest: " << (*result.first).name << " - " << (*result.first).age << std::endl;
+				break;
+			}
+			case 18:
+			{
+				std::vector<Person>	people
+				{
+					Person("Kate", 19),
+					Person("John", 21),
+					Person("Fred", 20),
+					Person("Mark", 41),
+					Person("Lusy", 27),
+					Person("Sara", 17)
+				};
+
+				auto result = std::accumulate(people.begin(), people.end(), 0);
+
+				std::cout << "People count: " << result << std::endl;
 				break;
 			}
 			case 0:
