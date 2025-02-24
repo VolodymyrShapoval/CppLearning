@@ -1,5 +1,6 @@
 #include "Bank.h"
 
+std::mutex mtx;
 
 void Bank::make_request(const Client& client, std::function<void(std::uint32_t amount)> operation)
 {
@@ -11,7 +12,7 @@ void Bank::make_request(const Client& client, std::function<void(std::uint32_t a
 #else
 	localtime_r(&now_c, &localTime);  // Безпечна версія для Linux/macOS
 #endif
-
+	mtx.lock();
 	std::cout << std::setw(4) << std::setfill('0') << localTime.tm_year + 1900 << "/"
 		<< std::setw(2) << std::setfill('0') << localTime.tm_mday << "/"
 		<< std::setw(2) << std::setfill('0') << localTime.tm_mon + 1 << " "
@@ -27,6 +28,7 @@ void Bank::make_request(const Client& client, std::function<void(std::uint32_t a
 		return rand() % 100000 + 1000;
 	};
 	operation(get_rand_amount());
+	mtx.unlock();
 }
 
 void Bank::get_cash(const std::uint32_t amount)

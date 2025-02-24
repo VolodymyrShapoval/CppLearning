@@ -59,9 +59,9 @@ int main()
 			OperationTimer timer;
 #endif
 			std::thread th1(Bank::make_request, clients[rand() % clients.size()], Bank::get_cash);
-			/*std::thread th2(Bank::make_request, clients[rand() % clients.size()], Bank::get_cash);*/
+			std::thread th2(Bank::make_request, clients[rand() % clients.size()], Bank::deposit_cash);
 			th1.join();
-			//th2.join();
+			th2.join();
 		}
 	}
 	catch (const std::exception& ex)
