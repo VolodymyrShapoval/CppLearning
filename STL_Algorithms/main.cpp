@@ -35,14 +35,17 @@ int main()
 
 		bool result = std::equal(std::begin(myVec1), std::end(myVec1), std::begin(myVec2), std::end(myVec2), areAgesEqual);
 		auto pairRes = std::mismatch(std::begin(myVec1), std::end(myVec1), std::begin(myVec2), std::end(myVec2), areAgesEqual);
+		std::cout << std::boolalpha << "Result(equal): " << result << std::endl;
+		std::cout << std::boolalpha << "Result(mismatch): " << (*pairRes.first).name << " - " << (*pairRes.first).age << std::endl;
+		std::cout << std::boolalpha << "Result(mismatch): " << (*pairRes.second).name << " - " << (*pairRes.second).age << std::endl;
+		
+		srand(time(NULL));
+		std::random_shuffle(std::begin(myVec1), std::end(myVec1));
 		std::vector<Person> uniquePersons;
 		std::unique_copy(std::begin(myVec1), std::end(myVec1), std::back_inserter(uniquePersons), [](const Person& person1, const Person& person2)
 		{
 			return person1.name == person2.name;
 		});
-		std::cout << std::boolalpha << "Result(equal): " << result << std::endl;
-		std::cout << std::boolalpha << "Result(mismatch): " << (*pairRes.first).name << " - " << (*pairRes.first).age << std::endl;
-		std::cout << std::boolalpha << "Result(mismatch): " << (*pairRes.second).name << " - " << (*pairRes.second).age << std::endl;
 		std::cout << "Unique persons: " << std::endl;
 		std::for_each(std::begin(uniquePersons), std::end(uniquePersons), [](const Person& person)
 		{
